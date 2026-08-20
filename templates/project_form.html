@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - Publish Startup Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .top-nav {
+            width: 100%;
+            background-color: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+            margin: 0 auto;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+            display: none;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .lang-button {
+            background: transparent;
+            border: 1px solid #666;
+            color: #ccc;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .lang-button:hover {
+            color: white;
+            border-color: #aaa;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 4px;
+            font-weight: 400;
+            user-select: none;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .form-description {
+            font-size: 1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #333;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: #0066cc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-help {
+            display: block;
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .checkbox-group {
+            margin-top: 15px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .checkbox-input {
+            margin-right: 10px;
+        }
+        
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .tag-option {
+            display: none;
+        }
+        
+        .tag-label {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .tag-option:checked + .tag-label {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #0066cc;
+            background: #f0f7ff;
+        }
+        
+        .file-upload-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #0066cc;
+        }
+        
+        .file-upload-text {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .submit-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title" data-i18n="brand">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('community') }}" class="nav-item" data-i18n="community">社区</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item" data-i18n="career">求职</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item" data-i18n="exchange">出国交换</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item" data-i18n="gap">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item" data-i18n="startup">创业中心</a>
+            </div>
+            <div class="nav-right">
+                <button id="lang-toggle" class="lang-button">EN / 中文</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Flash 消息显示区域 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages" style="max-width: 900px; margin: 20px auto; padding: 0 20px;">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}" style="padding: 15px; margin-bottom: 20px; border-radius: 4px; {% if category == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% elif category == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <div class="container">
+        <div class="form-header">
+            <h1 class="form-title">
+                Publish Your Startup Project
+            </h1>
+            <p class="form-description">
+                Share your startup idea, find partners, get resource support, and join the global entrepreneur community
+            </p>
+        </div>
+        
+        <form id="project-form" action="{{ url_for('submit_project') }}" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="project-name">
+                            Project Name *
+                        </label>
+                        <input class="form-input" type="text" id="project-name" name="project_name" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="project-stage">
+                            Project Stage *
+                        </label>
+                        <select class="form-select" id="project-stage" name="project_stage" required>
+                            <option value="">-- Please Select --</option>
+                            <option value="idea">Idea Stage</option>
+                            <option value="prototype">Prototype Stage</option>
+                            <option value="mvp">MVP Stage</option>
+                            <option value="seed">Seed Stage</option>
+                            <option value="early">Early Growth</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="project-summary">
+                    One-Sentence Summary *
+                </label>
+                <input class="form-input" type="text" id="project-summary" name="project_summary" required maxlength="100">
+                <span class="form-help">
+                    Briefly summarize your project (100 characters max)
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="project-description">
+                    Detailed Description *
+                </label>
+                <textarea class="form-textarea" id="project-description" name="project_description" required></textarea>
+                <span class="form-help">
+                    Describe your startup in detail, including the problem, solution, target users, business model, etc.
+                </span>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="project-country">
+                            Country/Region *
+                        </label>
+                        <input class="form-input" type="text" id="project-country" name="project_country" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="project-city">
+                            City
+                        </label>
+                        <input class="form-input" type="text" id="project-city" name="project_city">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    Project Categories/Tags *
+                </label>
+                <div class="tag-container">
+                    <input type="checkbox" id="tag-tech" name="project_tags" value="tech" class="tag-option">
+                    <label for="tag-tech" class="tag-label">
+                        Technology
+                    </label>
+                    
+                    <input type="checkbox" id="tag-health" name="project_tags" value="health" class="tag-option">
+                    <label for="tag-health" class="tag-label">
+                        Healthcare
+                    </label>
+                    
+                    <input type="checkbox" id="tag-education" name="project_tags" value="education" class="tag-option">
+                    <label for="tag-education" class="tag-label">
+                        Education
+                    </label>
+                    
+                    <input type="checkbox" id="tag-finance" name="project_tags" value="finance" class="tag-option">
+                    <label for="tag-finance" class="tag-label">
+                        Finance
+                    </label>
+                    
+                    <input type="checkbox" id="tag-ecommerce" name="project_tags" value="ecommerce" class="tag-option">
+                    <label for="tag-ecommerce" class="tag-label">
+                        E-commerce
+                    </label>
+                    
+                    <input type="checkbox" id="tag-sustainability" name="project_tags" value="sustainability" class="tag-option">
+                    <label for="tag-sustainability" class="tag-label">
+                        Sustainability
+                    </label>
+                    
+                    <input type="checkbox" id="tag-social" name="project_tags" value="social" class="tag-option">
+                    <label for="tag-social" class="tag-label">
+                        Social Media
+                    </label>
+                    
+                    <input type="checkbox" id="tag-ai" name="project_tags" value="ai" class="tag-option">
+                    <label for="tag-ai" class="tag-label">
+                        AI
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="project-seeking">
+                    Looking For *
+                </label>
+                <input class="form-input" type="text" id="project-seeking" name="project_seeking" required>
+                <span class="form-help">
+                    List the roles or resources you are seeking, e.g.: Technical Co-founder, Product Manager, Investment, etc.
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    Project Logo/Image
+                </label>
+                <div class="file-upload" id="file-upload-container">
+                    <div class="file-upload-icon">📁</div>
+                    <div class="file-upload-text">
+                        Click to upload or drag and drop an image file
+                    </div>
+                    <input type="file" id="project-image" name="project_image" class="file-input" accept="image/*">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="founder-name">
+                    Founder Name *
+                </label>
+                <input class="form-input" type="text" id="founder-name" name="founder_name" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="founder-email">
+                            Contact Email *
+                        </label>
+                        <input class="form-input" type="email" id="founder-email" name="founder_email" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="founder-wechat">
+                            WeChat/WhatsApp (Optional)
+                        </label>
+                        <input class="form-input" type="text" id="founder-wechat" name="founder_wechat">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" id="public-contact" name="public_contact" value="yes">
+                        Allow my contact information to be public on the project page
+                    </label>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" id="agree-terms" name="agree_terms" value="yes" required>
+                        I agree to AIme Startup Center's Terms of Service and Privacy Policy
+                    </label>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button type="submit" class="submit-btn">
+                    Publish Project
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // 文件上传预览
+        const fileUploadContainer = document.getElementById('file-upload-container');
+        const fileInput = document.getElementById('project-image');
+        
+        fileUploadContainer.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    fileUploadContainer.style.backgroundImage = `url(${e.target.result})`;
+                    fileUploadContainer.style.backgroundSize = 'cover';
+                    fileUploadContainer.style.backgroundPosition = 'center';
+                    fileUploadContainer.querySelector('.file-upload-icon').style.display = 'none';
+                    fileUploadContainer.querySelector('.file-upload-text').style.display = 'none';
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // 表单验证
+        const projectForm = document.getElementById('project-form');
+        projectForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // 检查至少选择一个标签
+            const tagCheckboxes = document.querySelectorAll('input[name="project_tags"]');
+            const hasTag = Array.from(tagCheckboxes).some(checkbox => checkbox.checked);
+            
+            if (!hasTag) {
+                isValid = false;
+                alert('Please select at least one project category/tag.');
+            }
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html> 

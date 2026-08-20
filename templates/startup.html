@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - Startup Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .top-nav {
+            width: 100%;
+            background-color: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+            margin: 0 auto;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+            display: none;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 4px;
+            font-weight: 400;
+            user-select: none;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/random/1600x900/?startup,innovation');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #333333;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn:hover {
+            background-color: #555555;
+        }
+        
+        .cta-section {
+            background-color: #333333;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-text {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            line-height: 1.5;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: #333333;
+            font-weight: 600;
+        }
+        
+        .btn-white:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('index') }}" class="nav-item">Home</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('intro') }}" class="nav-item">About Us</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('community') }}" class="nav-item">Community</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item">Careers</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item">Exchange</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item active">Startup Center</a>
+            </div>
+            <div class="nav-right">
+                <!-- Language toggle button is hidden -->
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Flash message display area -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages" style="max-width: 900px; margin: 20px auto; padding: 0 20px;">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}" style="padding: 15px; margin-bottom: 20px; border-radius: 4px; {% if category == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% elif category == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <section class="hero-section">
+        <h1 class="hero-title">Global Startup Center</h1>
+        <p class="hero-subtitle">A platform connecting entrepreneurs, co-founders and investors to share startup ideas, find partners, and access resources</p>
+        <a href="#startup-ideas" class="btn">Explore Opportunities</a>
+    </section>
+    
+    <section id="startup-ideas" class="container">
+        <h2 class="section-title">Startup Projects</h2>
+        
+        <style>
+            .ideas-filter {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 40px;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                background: #f0f0f0;
+                border: none;
+                border-radius: 4px;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            .filter-btn:hover, .filter-btn.active {
+                background: #0066cc;
+                color: white;
+            }
+            
+            .ideas-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 30px;
+            }
+            
+            .idea-card {
+                background: white;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .idea-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            }
+            
+            .idea-header {
+                padding: 20px;
+                background: #f9f9f9;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .idea-title {
+                font-size: 1.4rem;
+                margin: 0 0 10px 0;
+                color: #333;
+            }
+            
+            .idea-founder {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .founder-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+            
+            .founder-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .founder-info {
+                font-size: 0.9rem;
+                color: #666;
+            }
+            
+            .founder-name {
+                font-weight: 500;
+                color: #333;
+            }
+            
+            .idea-body {
+                padding: 20px;
+                flex-grow: 1;
+            }
+            
+            .idea-desc {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                color: #555;
+                margin-bottom: 20px;
+            }
+            
+            .idea-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            
+            .idea-tag {
+                font-size: 0.8rem;
+                padding: 4px 10px;
+                background: #f0f0f0;
+                border-radius: 20px;
+                color: #666;
+            }
+            
+            .idea-meta {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+                font-size: 0.85rem;
+                color: #777;
+            }
+            
+            .idea-location {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            
+            .idea-stage {
+                padding: 3px 10px;
+                background: #e6f2ff;
+                color: #0066cc;
+                border-radius: 4px;
+                font-weight: 500;
+            }
+            
+            .idea-footer {
+                padding: 15px 20px;
+                border-top: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .looking-for {
+                font-size: 0.85rem;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                color: #666;
+            }
+            
+            .looking-for span {
+                font-weight: 500;
+                color: #333;
+            }
+        </style>
+        
+        <div class="ideas-filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="tech">Technology</button>
+            <button class="filter-btn" data-filter="health">Healthcare</button>
+            <button class="filter-btn" data-filter="education">Education</button>
+            <button class="filter-btn" data-filter="finance">Finance</button>
+            <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+            <button class="filter-btn" data-filter="sustainability">Sustainability</button>
+        </div>
+        
+        <div class="ideas-grid">
+            <div class="idea-card" data-category="tech">
+                <div class="idea-header">
+                    <h3 class="idea-title">AI-powered Personalized Education Platform</h3>
+                    <div class="idea-founder">
+                        <div class="founder-avatar">
+                            <img src="https://source.unsplash.com/random/100x100/?portrait,man" alt="Founder Avatar">
+                        </div>
+                        <div class="founder-info">
+                            By <span class="founder-name">Yu Zhang</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="idea-body">
+                    <p class="idea-desc">We are developing an AI-based education platform that automatically generates and recommends personalized learning content based on students' learning styles, progress, and interests to improve learning efficiency and engagement.</p>
+                    <div class="idea-tags">
+                        <div class="idea-tag">Artificial Intelligence</div>
+                        <div class="idea-tag">EdTech</div>
+                        <div class="idea-tag">Personalized Learning</div>
+                    </div>
+                    <div class="idea-meta">
+                        <div class="idea-location">📍 Shanghai, China</div>
+                        <div class="idea-stage">Seed Stage</div>
+                    </div>
+                </div>
+                <div class="idea-footer">
+                    <div class="looking-for">
+                        Looking for: <span>Technical Co-founder, AI Engineer</span>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="btn">Contact Founder</a>
+                </div>
+            </div>
+            
+            <div class="idea-card" data-category="health">
+                <div class="idea-header">
+                    <h3 class="idea-title">Remote Medical AI Diagnostic Support System</h3>
+                    <div class="idea-founder">
+                        <div class="founder-avatar">
+                            <img src="https://source.unsplash.com/random/100x100/?portrait,woman" alt="Founder Avatar">
+                        </div>
+                        <div class="founder-info">
+                            By <span class="founder-name">Ming Li</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="idea-body">
+                    <p class="idea-desc">We are developing a telemedicine platform that integrates AI image diagnostic technology to help doctors make more accurate remote diagnoses, improve healthcare resource allocation, and deliver quality medical services to more people.</p>
+                    <div class="idea-tags">
+                        <div class="idea-tag">HealthTech</div>
+                        <div class="idea-tag">Artificial Intelligence</div>
+                        <div class="idea-tag">Telemedicine</div>
+                    </div>
+                    <div class="idea-meta">
+                        <div class="idea-location">📍 San Francisco, USA</div>
+                        <div class="idea-stage">Early Stage</div>
+                    </div>
+                </div>
+                <div class="idea-footer">
+                    <div class="looking-for">
+                        Looking for: <span>Medical Expert, AI Engineer, Product Manager</span>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="btn">Contact Founder</a>
+                </div>
+            </div>
+            
+            <div class="idea-card" data-category="finance">
+                <div class="idea-header">
+                    <h3 class="idea-title">Cross-border Payment Solutions for Emerging Markets</h3>
+                    <div class="idea-founder">
+                        <div class="founder-avatar">
+                            <img src="https://source.unsplash.com/random/100x100/?portrait,business" alt="Founder Avatar">
+                        </div>
+                        <div class="founder-info">
+                            By <span class="founder-name">Lei Wang</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="idea-body">
+                    <p class="idea-desc">We are building a cross-border payment platform for emerging markets, using blockchain technology to reduce transaction costs and improve settlement speed, addressing the inefficiency and cost issues of traditional banking systems.</p>
+                    <div class="idea-tags">
+                        <div class="idea-tag">FinTech</div>
+                        <div class="idea-tag">Blockchain</div>
+                        <div class="idea-tag">Cross-border Payment</div>
+                    </div>
+                    <div class="idea-meta">
+                        <div class="idea-location">📍 Singapore</div>
+                        <div class="idea-stage">Seed Stage</div>
+                    </div>
+                </div>
+                <div class="idea-footer">
+                    <div class="looking-for">
+                        Looking for: <span>Blockchain Developer, Finance Expert, Business Development</span>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="btn">Contact Founder</a>
+                </div>
+            </div>
+            
+            <div class="idea-card" data-category="education">
+                <div class="idea-header">
+                    <h3 class="idea-title">Immersive Language Learning VR Platform</h3>
+                    <div class="idea-founder">
+                        <div class="founder-avatar">
+                            <img src="https://source.unsplash.com/random/100x100/?portrait,asian" alt="Founder Avatar">
+                        </div>
+                        <div class="founder-info">
+                            By <span class="founder-name">Jia Chen</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="idea-body">
+                    <p class="idea-desc">We are developing a language learning platform based on VR technology, creating immersive virtual environments so that learners can practice foreign languages in simulated real-life scenarios, greatly improving learning effectiveness and fun.</p>
+                    <div class="idea-tags">
+                        <div class="idea-tag">EdTech</div>
+                        <div class="idea-tag">Virtual Reality</div>
+                        <div class="idea-tag">Language Learning</div>
+                    </div>
+                    <div class="idea-meta">
+                        <div class="idea-location">📍 Berlin, Germany</div>
+                        <div class="idea-stage">Prototype Stage</div>
+                    </div>
+                </div>
+                <div class="idea-footer">
+                    <div class="looking-for">
+                        Looking for: <span>VR Developer, Education Content Expert, Marketing</span>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="btn">Contact Founder</a>
+                </div>
+            </div>
+            
+            <div class="idea-card" data-category="sustainability">
+                <div class="idea-header">
+                    <h3 class="idea-title">Smart Waste Sorting and Recycling System</h3>
+                    <div class="idea-founder">
+                        <div class="founder-avatar">
+                            <img src="https://source.unsplash.com/random/100x100/?portrait,young" alt="Founder Avatar">
+                        </div>
+                        <div class="founder-info">
+                            By <span class="founder-name">Xiao Liu</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="idea-body">
+                    <p class="idea-desc">We are developing an intelligent waste sorting system that combines AI recognition technology and IoT devices to achieve automatic waste sorting and recycling tracking, improving recycling rates and creating a closed-loop resource utilization model.</p>
+                    <div class="idea-tags">
+                        <div class="idea-tag">GreenTech</div>
+                        <div class="idea-tag">IoT</div>
+                        <div class="idea-tag">Sustainability</div>
+                    </div>
+                    <div class="idea-meta">
+                        <div class="idea-location">📍 Toronto, Canada</div>
+                        <div class="idea-stage">Seed Stage</div>
+                    </div>
+                </div>
+                <div class="idea-footer">
+                    <div class="looking-for">
+                        Looking for: <span>Hardware Engineer, Sustainability Expert, Business Development</span>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="btn">Contact Founder</a>
+                </div>
+            </div>
+            
+            <div class="idea-card" data-category="ecommerce">
+                <div class="idea-header">
+                    <h3 class="idea-title">Community-driven Local Fresh Food Delivery Platform</h3>
+                    <div class="idea-founder">
+                        <div class="founder-avatar">
+                            <img src="https://source.unsplash.com/random/100x100/?portrait,man2" alt="Founder Avatar">
+                        </div>
+                        <div class="founder-info">
+                            By <span class="founder-name">Qiang Ma</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="idea-body">
+                    <p class="idea-desc">We are building a fresh food delivery platform connecting small local farms with urban consumers, using a community group-buying model to reduce logistics costs, ensure food freshness, and support local agriculture.</p>
+                    <div class="idea-tags">
+                        <div class="idea-tag">E-commerce</div>
+                        <div class="idea-tag">Food Supply Chain</div>
+                        <div class="idea-tag">Community Economy</div>
+                    </div>
+                    <div class="idea-meta">
+                        <div class="idea-location">📍 Shenzhen, China</div>
+                        <div class="idea-stage">Seed Round Fundraising</div>
+                    </div>
+                </div>
+                <div class="idea-footer">
+                    <div class="looking-for">
+                        Looking for: <span>Supply Chain Expert, Product Manager, Technical Co-founder</span>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="btn">Contact Founder</a>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="#" class="btn" style="background-color: #444;">View More Projects</a>
+            <a href="{{ url_for('project_form') }}" class="btn" style="background-color: #28a745; margin-left: 20px;">Submit My Startup Project</a>
+        </div>
+    </section>
+    
+    <section class="cofounders" style="background-color: #f9f9f9; padding: 80px 0;">
+        <div class="container">
+            <h2 class="section-title">Find Co-founders</h2>
+            
+            <style>
+                .cofounders-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    gap: 30px;
+                }
+                
+                .cofounder-card {
+                    background: white;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                
+                .cofounder-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+                }
+                
+                .cofounder-header {
+                    position: relative;
+                    height: 100px;
+                    background: linear-gradient(135deg, #0066cc, #00a1ff);
+                }
+                
+                .cofounder-avatar {
+                    position: absolute;
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    bottom: -50px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border: 5px solid white;
+                    overflow: hidden;
+                    background: white;
+                }
+                
+                .cofounder-avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                
+                .cofounder-content {
+                    padding: 60px 20px 20px 20px;
+                    text-align: center;
+                }
+                
+                .cofounder-name {
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    margin-bottom: 5px;
+                }
+                
+                .cofounder-title {
+                    color: #333333;
+                    font-size: 0.9rem;
+                    margin-bottom: 15px;
+                }
+                
+                .cofounder-bio {
+                    font-size: 0.9rem;
+                    line-height: 1.6;
+                    color: #666;
+                    margin-bottom: 20px;
+                }
+                
+                .cofounder-skills {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 8px;
+                    margin-bottom: 20px;
+                }
+                
+                .cofounder-skill {
+                    font-size: 0.8rem;
+                    padding: 4px 10px;
+                    background: #f0f0f0;
+                    border-radius: 20px;
+                    color: #666;
+                }
+                
+                .cofounder-interests {
+                    font-size: 0.9rem;
+                    line-height: 1.6;
+                    margin-bottom: 20px;
+                    padding-top: 15px;
+                    border-top: 1px solid #eee;
+                }
+                
+                .interest-label {
+                    color: #999;
+                    display: block;
+                    margin-bottom: 5px;
+                }
+                
+                .cofounder-contact {
+                    display: inline-block;
+                    padding: 8px 20px;
+                    background-color: #333333;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    transition: background-color 0.2s ease;
+                }
+                
+                .cofounder-contact:hover {
+                    background-color: #555555;
+                }
+                
+                .filter-tabs {
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-bottom: 40px;
+                }
+                
+                .filter-tab {
+                    padding: 8px 16px;
+                    background: #f0f0f0;
+                    border: none;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                
+                .filter-tab:hover, .filter-tab.active {
+                    background: #0066cc;
+                    color: white;
+                }
+            </style>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-role="all">All</button>
+                <button class="filter-tab" data-role="tech">Tech Talent</button>
+                <button class="filter-tab" data-role="business">Business Talent</button>
+                <button class="filter-tab" data-role="design">Design Talent</button>
+                <button class="filter-tab" data-role="marketing">Marketing</button>
+                <button class="filter-tab" data-role="product">Product Manager</button>
+            </div>
+            
+            <div class="cofounders-grid">
+                <div class="cofounder-card" data-role="tech">
+                    <div class="cofounder-header">
+                        <div class="cofounder-avatar">
+                            <img src="https://source.unsplash.com/random/200x200/?portrait,man1" alt="Co-founder Avatar">
+                        </div>
+                    </div>
+                    <div class="cofounder-content">
+                        <h3 class="cofounder-name">James Chen</h3>
+                        <div class="cofounder-title">Full-Stack Engineer | ex-Google</div>
+                        <p class="cofounder-bio">10 years of software development experience. Led payment systems at Google. Skilled in Python, Java, React; deep expertise in AI and Blockchain.</p>
+                        <div class="cofounder-skills">
+                            <div class="cofounder-skill">Python</div>
+                            <div class="cofounder-skill">Java</div>
+                            <div class="cofounder-skill">React</div>
+                            <div class="cofounder-skill">AI</div>
+                            <div class="cofounder-skill">Blockchain</div>
+                        </div>
+                        <div class="cofounder-interests">
+                            <span class="interest-label">Interests</span>
+                            FinTech, Artificial Intelligence, EdTech
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cofounder-contact">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="cofounder-card" data-role="business">
+                    <div class="cofounder-header">
+                        <div class="cofounder-avatar">
+                            <img src="https://source.unsplash.com/random/200x200/?portrait,woman1" alt="Co-founder Avatar">
+                        </div>
+                    </div>
+                    <div class="cofounder-content">
+                        <h3 class="cofounder-name">Mina Zhao</h3>
+                        <div class="cofounder-title">Business Development Expert | ex-Alibaba</div>
+                        <p class="cofounder-bio">8 years in business development and strategic partnerships. Led cross-border e-commerce expansion at Alibaba. Skilled in business model design, market strategy, and team management.</p>
+                        <div class="cofounder-skills">
+                            <div class="cofounder-skill">Business Development</div>
+                            <div class="cofounder-skill">Market Strategy</div>
+                            <div class="cofounder-skill">Strategic Partnerships</div>
+                            <div class="cofounder-skill">Team Management</div>
+                        </div>
+                        <div class="cofounder-interests">
+                            <span class="interest-label">Interests</span>
+                            Cross-border E-commerce, Supply Chain Innovation, Consumer Brands
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cofounder-contact">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="cofounder-card" data-role="design">
+                    <div class="cofounder-header">
+                        <div class="cofounder-avatar">
+                            <img src="https://source.unsplash.com/random/200x200/?portrait,creative" alt="Co-founder Avatar">
+                        </div>
+                    </div>
+                    <div class="cofounder-content">
+                        <h3 class="cofounder-name">Sophie Lin</h3>
+                        <div class="cofounder-title">Product Designer | ex-ByteDance</div>
+                        <p class="cofounder-bio">7 years in product design. Led UX/UI for multiple global products at ByteDance. Specializes in user experience, brand, and interaction design. Multiple design awards.</p>
+                        <div class="cofounder-skills">
+                            <div class="cofounder-skill">UX/UI Design</div>
+                            <div class="cofounder-skill">Brand Design</div>
+                            <div class="cofounder-skill">Interaction Design</div>
+                            <div class="cofounder-skill">Prototyping</div>
+                        </div>
+                        <div class="cofounder-interests">
+                            <span class="interest-label">Interests</span>
+                            Social Media, Content Creation, Creative Tools
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cofounder-contact">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="cofounder-card" data-role="tech">
+                    <div class="cofounder-header">
+                        <div class="cofounder-avatar">
+                            <img src="https://source.unsplash.com/random/200x200/?portrait,tech" alt="Co-founder Avatar">
+                        </div>
+                    </div>
+                    <div class="cofounder-content">
+                        <h3 class="cofounder-name">David Chen</h3>
+                        <div class="cofounder-title">AI Research Scientist | ex-Meta</div>
+                        <p class="cofounder-bio">Expert in artificial intelligence and machine learning. PhD in Computer Science, University of Chicago. Former Meta AI Lab researcher, published in top journals.</p>
+                        <div class="cofounder-skills">
+                            <div class="cofounder-skill">Machine Learning</div>
+                            <div class="cofounder-skill">Deep Learning</div>
+                            <div class="cofounder-skill">NLP</div>
+                            <div class="cofounder-skill">Computer Vision</div>
+                        </div>
+                        <div class="cofounder-interests">
+                            <span class="interest-label">Interests</span>
+                            Generative AI, Medical Diagnostics, Personalized Education
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cofounder-contact">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="cofounder-card" data-role="marketing">
+                    <div class="cofounder-header">
+                        <div class="cofounder-avatar">
+                            <img src="https://source.unsplash.com/random/200x200/?portrait,marketing" alt="Co-founder Avatar">
+                        </div>
+                    </div>
+                    <div class="cofounder-content">
+                        <h3 class="cofounder-name">Sarah Wang</h3>
+                        <div class="cofounder-title">Growth Marketing Expert | ex-Airbnb</div>
+                        <p class="cofounder-bio">Digital marketing and growth strategist with 6 years at global companies. Led APAC growth at Airbnb. Expert in data-driven marketing and user acquisition.</p>
+                        <div class="cofounder-skills">
+                            <div class="cofounder-skill">Growth Hacking</div>
+                            <div class="cofounder-skill">Digital Marketing</div>
+                            <div class="cofounder-skill">User Acquisition</div>
+                            <div class="cofounder-skill">Data Analysis</div>
+                        </div>
+                        <div class="cofounder-interests">
+                            <span class="interest-label">Interests</span>
+                            Sharing Economy, TravelTech, Consumer Apps
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cofounder-contact">Connect</a>
+                    </div>
+                </div>
+                
+                <div class="cofounder-card" data-role="product">
+                    <div class="cofounder-header">
+                        <div class="cofounder-avatar">
+                            <img src="https://source.unsplash.com/random/200x200/?portrait,business2" alt="Co-founder Avatar">
+                        </div>
+                    </div>
+                    <div class="cofounder-content">
+                        <h3 class="cofounder-name">Ray Li</h3>
+                        <div class="cofounder-title">Product Manager | ex-Tencent</div>
+                        <p class="cofounder-bio">Senior product manager with 8 years of internet product experience. Led Tencent products with over 100M users. Skilled in user research, product strategy, and agile teamwork.</p>
+                        <div class="cofounder-skills">
+                            <div class="cofounder-skill">Product Strategy</div>
+                            <div class="cofounder-skill">User Research</div>
+                            <div class="cofounder-skill">Product Operations</div>
+                            <div class="cofounder-skill">Agile Development</div>
+                        </div>
+                        <div class="cofounder-interests">
+                            <span class="interest-label">Interests</span>
+                            Social Products, SaaS Tools, Content Platforms
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cofounder-contact">Connect</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="#" class="btn" style="background-color: #444;">View More Talent</a>
+                <a href="{{ url_for('founder_form') }}" class="btn" style="background-color: #28a745; margin-left: 20px;">Complete My Founder Profile</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="funding-resources container">
+        <h2 class="section-title">Startup Resources & Funding</h2>
+        
+        <style>
+            .resources-tabs {
+                display: flex;
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 30px;
+            }
+            
+            .resource-tab {
+                padding: 12px 24px;
+                background: transparent;
+                border: none;
+                border-bottom: 3px solid transparent;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            .resource-tab.active {
+                border-bottom-color: #0066cc;
+                color: #0066cc;
+                font-weight: 500;
+            }
+            
+            .resource-content {
+                display: none;
+            }
+            
+            .resource-content.active {
+                display: block;
+            }
+            
+            .vc-cards {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+            
+            .vc-card {
+                background: white;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .vc-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            }
+            
+            .vc-logo {
+                height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                background: #f9f9f9;
+            }
+            
+            .vc-logo img {
+                max-width: 80%;
+                max-height: 80px;
+            }
+            
+            .vc-info {
+                padding: 20px;
+            }
+            
+            .vc-name {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            
+            .vc-focus {
+                font-size: 0.9rem;
+                color: #666;
+                margin-bottom: 15px;
+            }
+            
+            .vc-details {
+                font-size: 0.85rem;
+                color: #777;
+                margin-bottom: 15px;
+            }
+            
+            .vc-detail {
+                display: flex;
+                margin-bottom: 5px;
+            }
+            
+            .vc-detail-label {
+                width: 100px;
+                color: #999;
+            }
+            
+            .vc-link {
+                display: inline-block;
+                padding: 8px 20px;
+                background-color: #333333;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                font-size: 0.9rem;
+                transition: background-color 0.2s ease;
+            }
+            
+            .vc-link:hover {
+                background-color: #555555;
+            }
+        </style>
+        
+        <div class="resources-tabs">
+            <button class="resource-tab active" data-tab="vc-firms">Venture Capital</button>
+            <button class="resource-tab" data-tab="accelerators">Accelerators</button>
+            <button class="resource-tab" data-tab="angel-investors">Angel Investors</button>
+            <button class="resource-tab" data-tab="grants">Grants & Subsidies</button>
+        </div>
+        
+        <div class="resource-content active" id="vc-firms">
+            <div class="vc-cards">
+                <div class="vc-card">
+                    <div class="vc-logo">
+                        <img src="https://source.unsplash.com/random/300x150/?tech,logo" alt="Sequoia Capital">
+                    </div>
+                    <div class="vc-info">
+                        <h3 class="vc-name">Sequoia Capital China</h3>
+                        <p class="vc-focus">Focus: Consumer, Enterprise Services, Healthcare, Hard Tech</p>
+                        <div class="vc-details">
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Stage:</div>
+                                <div>Seed - Series D</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Size:</div>
+                                <div>$1M - $100M</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Notable Investments:</div>
+                                <div>ByteDance, Didi, Meituan</div>
+                            </div>
+                        </div>
+                        <a href="#" class="vc-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="vc-card">
+                    <div class="vc-logo">
+                        <img src="https://source.unsplash.com/random/300x150/?finance,logo" alt="a16z">
+                    </div>
+                    <div class="vc-info">
+                        <h3 class="vc-name">Andreessen Horowitz (a16z)</h3>
+                        <p class="vc-focus">Focus: Software, FinTech, Crypto, Biotech</p>
+                        <div class="vc-details">
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Stage:</div>
+                                <div>Seed - Late Stage</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Size:</div>
+                                <div>$1M - $100M</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Notable Investments:</div>
+                                <div>Airbnb, Facebook, Coinbase</div>
+                            </div>
+                        </div>
+                        <a href="#" class="vc-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="vc-card">
+                    <div class="vc-logo">
+                        <img src="https://source.unsplash.com/random/300x150/?investment,logo" alt="Hillhouse Capital">
+                    </div>
+                    <div class="vc-info">
+                        <h3 class="vc-name">Hillhouse Capital</h3>
+                        <p class="vc-focus">Focus: Consumer, Healthcare, Enterprise Services, Education</p>
+                        <div class="vc-details">
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Stage:</div>
+                                <div>Series A - Late Stage</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Size:</div>
+                                <div>$5M - $500M</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Notable Investments:</div>
+                                <div>Kuaishou, Li Auto, BOSS Zhipin</div>
+                            </div>
+                        </div>
+                        <a href="#" class="vc-link">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vc-cards">
+                <div class="vc-card">
+                    <div class="vc-logo">
+                        <img src="https://source.unsplash.com/random/300x150/?vc,logo" alt="IDG Capital">
+                    </div>
+                    <div class="vc-info">
+                        <h3 class="vc-name">IDG Capital</h3>
+                        <p class="vc-focus">Focus: Consumer Internet, Enterprise Services, Frontier Tech</p>
+                        <div class="vc-details">
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Stage:</div>
+                                <div>Early - Growth</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Size:</div>
+                                <div>$1M - $50M</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Notable Investments:</div>
+                                <div>Xiaomi, Meituan, Sogou</div>
+                            </div>
+                        </div>
+                        <a href="#" class="vc-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="vc-card">
+                    <div class="vc-logo">
+                        <img src="https://source.unsplash.com/random/300x150/?startup,logo" alt="GGV Capital">
+                    </div>
+                    <div class="vc-info">
+                        <h3 class="vc-name">GGV Capital</h3>
+                        <p class="vc-focus">Focus: Smart Tech, Enterprise Services, Consumer Internet</p>
+                        <div class="vc-details">
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Stage:</div>
+                                <div>Series A - Growth</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Size:</div>
+                                <div>$5M - $25M</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Notable Investments:</div>
+                                <div>Alibaba, Didi, Bilibili</div>
+                            </div>
+                        </div>
+                        <a href="#" class="vc-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="vc-card">
+                    <div class="vc-logo">
+                        <img src="https://source.unsplash.com/random/300x150/?fund,logo" alt="Y Combinator">
+                    </div>
+                    <div class="vc-info">
+                        <h3 class="vc-name">Y Combinator</h3>
+                        <p class="vc-focus">Focus: Technology Innovation, All Sectors</p>
+                        <div class="vc-details">
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Stage:</div>
+                                <div>Seed</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Size:</div>
+                                <div>$500K</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Notable Investments:</div>
+                                <div>Airbnb, Dropbox, Stripe</div>
+                            </div>
+                        </div>
+                        <a href="#" class="vc-link">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="resource-content" id="accelerators">
+            <!-- Accelerator content -->
+            <div class="vc-cards">
+                <div class="vc-card">
+                    <div class="vc-logo">
+                        <img src="https://source.unsplash.com/random/300x150/?accelerator,logo" alt="YC">
+                    </div>
+                    <div class="vc-info">
+                        <h3 class="vc-name">Y Combinator</h3>
+                        <p class="vc-focus">World-class startup accelerator providing seed funding and 3-month intensive mentorship</p>
+                        <div class="vc-details">
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Location:</div>
+                                <div>Silicon Valley, USA (Remote Available)</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Investment Terms:</div>
+                                <div>$500K for 7% equity</div>
+                            </div>
+                            <div class="vc-detail">
+                                <div class="vc-detail-label">Application Timeline:</div>
+                                <div>2 batches per year</div>
+                            </div>
+                        </div>
+                        <a href="#" class="vc-link">Application Info</a>
+                    </div>
+                </div>
+                <!-- More accelerator cards -->
+            </div>
+        </div>
+        
+        <div class="resource-content" id="angel-investors">
+            <!-- Angel Investor Content -->
+        </div>
+        
+        <div class="resource-content" id="grants">
+            <!-- Grants & Subsidies Content -->
+        </div>
+    </section>
+    
+    <section class="startup-recruitment" style="background-color: #f9f9f9; padding: 80px 0;">
+        <div class="container">
+            <h2 class="section-title">Startup Recruitment</h2>
+            <p style="text-align: center; margin-bottom: 40px;">Explore job openings at top startups, join innovative teams, and help change the world</p>
+            <div style="text-align: center;">
+                <a href="{{ url_for('careers') }}" class="btn">Go to Careers Board for Startup Jobs</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Start Your Startup Journey</h2>
+            <p class="cta-text">Whether you have a startup idea, are looking for co-founders, or need funding, AIme Startup Center can provide the resources and connections you need.</p>
+            <a href="{{ url_for('index') }}" class="btn btn-white">Consult AIme</a>
+        </div>
+    </section>
+    
+    <script>
+        // Ideas filter functionality
+        const ideaFilterBtns = document.querySelectorAll('.filter-btn');
+        const ideaCards = document.querySelectorAll('.idea-card');
+        
+        ideaFilterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                ideaFilterBtns.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Get filter value
+                const filterValue = btn.getAttribute('data-filter');
+                
+                // Show/hide cards based on filter
+                ideaCards.forEach(card => {
+                    if (filterValue === 'all') {
+                        card.style.display = 'flex';
+                    } else {
+                        if (card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Co-founder filter functionality
+        const cofounderFilterTabs = document.querySelectorAll('.filter-tab');
+        const cofounderCards = document.querySelectorAll('.cofounder-card');
+        
+        cofounderFilterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                cofounderFilterTabs.forEach(tab => tab.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Get role value
+                const roleValue = tab.getAttribute('data-role');
+                
+                // Show/hide cards based on role
+                cofounderCards.forEach(card => {
+                    if (roleValue === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        if (card.getAttribute('data-role') === roleValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Resources tabs functionality
+        const resourceTabs = document.querySelectorAll('.resource-tab');
+        const resourceContents = document.querySelectorAll('.resource-content');
+        
+        resourceTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                resourceTabs.forEach(tab => tab.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Get tab value
+                const tabValue = tab.getAttribute('data-tab');
+                
+                // Hide all content sections
+                resourceContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show selected content section
+                document.getElementById(tabValue).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html> 

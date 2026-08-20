@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - Future Campus AI Employment Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add our language scripts -->
+    <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/language.js') }}"></script>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .top-nav {
+        width: 100%;
+        background-color: rgba(15, 17, 23, 0.7);
+        backdrop-filter: blur(8px);
+        color: #fff;
+        padding: 12px 24px;
+        border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+      }
+
+      .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .nav-left,
+      .nav-center,
+      .nav-right {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-left {
+        gap: 16px;
+      }
+
+      .nav-center {
+        gap: 24px;
+        margin: 0 auto;
+      }
+
+      .nav-right {
+        margin-left: auto;
+        display: none;
+      }
+
+      .brand-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+      }
+
+      .nav-item {
+        font-size: 1rem;
+        text-decoration: none;
+        color: #ccc;
+        transition: color 0.3s ease;
+        padding: 8px 12px;
+      }
+
+      .nav-item:hover {
+        color: #fff;
+      }
+
+      .nav-item.active {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      .nav-sep {
+        color: #666;
+        margin: 0 4px;
+        font-weight: 400;
+        user-select: none;
+      }
+
+      .lang-button {
+        background: transparent;
+        border: 1px solid #666;
+        color: #ccc;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-button:hover {
+        color: white;
+        border-color: #aaa;
+        background-color: #333333;
+      }
+
+      .app-container {
+        display: flex;
+        height: calc(100vh - 60px); /* Subtract navbar height */
+        overflow: hidden;
+      }
+
+      .sidebar {
+        width: 260px;
+        background-color: #000;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .user-message, .ai-message {
+        max-width: 70%;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+        border-radius: 16px;
+        line-height: 1.5;
+        font-size: 0.95rem;
+        white-space: pre-wrap;
+      }
+
+      .user-message {
+        align-self: flex-end;
+        background-color: #e0f3ff;
+        color: #000;
+        margin-left: auto;
+        margin-right: 16px;
+        text-align: left;
+      }
+
+      .ai-message {
+        align-self: flex-start;
+        background-color: #f1f1f1;
+        color: #000;
+        margin-right: auto;
+        margin-left: 16px;
+        text-align: left;
+      }
+
+      .input-container {
+        background: rgba(0, 0, 0, 0.7);
+        border-top: none;
+        padding: 16px 24px;
+        margin: 16px;
+        border-radius: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .chat-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 900px;
+        gap: 4px;
+      }
+
+      .input-wrapper {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .input-wrapper textarea {
+        flex: 1;
+        border: none;
+        padding: 10px 14px;
+        font-size: 15px;
+        resize: none;
+        border-radius: 0;
+        outline: none;
+        font-family: inherit;
+      }
+
+      .send-button {
+        background: #111;
+        color: white;
+        border: none;
+        padding: 10px 12px;
+        margin-right: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transition: background 0.2s ease;
+      }
+
+      .send-button:hover {
+        background: #333;
+      }
+
+      .send-button svg {
+        stroke: white;
+      }
+
+      .input-footer {
+        font-size: 11px;
+        color: #777;
+        margin-top: 2px;
+        padding-left: 4px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: #333333;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease;
+      }
+      
+      .btn:hover {
+        background-color: #555555;
+      }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('index') }}" class="nav-item active">Home</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('intro') }}" class="nav-item">About Us</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('community') }}" class="nav-item">Community</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item">Careers</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item">Exchange</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item">Startup Center</a>
+            </div>
+            <div class="nav-right">
+                <!-- Language toggle button is hidden -->
+            </div>
+        </div>
+    </nav>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <button class="new-chat-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 5v14m-7-7h14" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    New Chat
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="chat-history">
+                    <h2>Chat History</h2>
+                    <ul class="chat-list">
+                        <!-- Chat history items will be added here -->
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <button class="settings-btn" onclick="showApiKeyModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke-width="2"/>
+                    </svg>
+                    Claude API Key
+                </button>
+            </div>
+            <!-- Claude API Key Modal -->
+            <div id="api-key-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+              <div style="background:white; padding:30px; border-radius:10px; max-width:400px; margin:auto;">
+                <h2>Claude API Key</h2>
+                <input id="claude-api-key-input" type="text" style="width:100%; padding:8px;" placeholder="Enter your Claude API Key">
+                <div style="margin-top:16px; text-align:right;">
+                  <button onclick="saveClaudeApiKey()">Save</button>
+                  <button onclick="hideApiKeyModal()">Cancel</button>
+                </div>
+              </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="chat-container">
+                <div class="messages" id="messages">
+                    <!-- Welcome message -->
+                    <div class="welcome-screen" id="welcome-screen">
+                        <h1>Welcome to AIME</h1>
+                        <p>Hello! I'm AIme, an action-oriented AI assistant. I focus on providing direct, practical solutions and never waste time on unnecessary theory. I enjoy tackling challenges and can quickly adapt to any situation. Tell me what specific help you need, and we'll get started right away!</p>
+                        <div style="margin-top: 16px;">
+                            <button onclick="chooseOption('school')" style="margin-right: 12px;" class="lang-button">Apply to an Overseas School</button>
+                            <button onclick="chooseOption('job')" class="lang-button">Help with Resume</button>
+                        </div>
+                    </div>
+                    <!-- Messages will be added here -->
+                </div>
+                
+                <!-- Input area -->
+                <div class="input-container">
+                    <form id="chat-form" class="chat-form">
+                        <div class="input-wrapper">
+                            <textarea 
+                                id="message-input" 
+                                placeholder="Type your message here..." 
+                                rows="1"
+                                autofocus
+                            ></textarea>
+                            <span class="send-button-container" style="display: flex; align-items: center; justify-content: center;">
+                              <button type="submit" class="send-button">
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>
+                              </button>
+                            </span>
+                        </div>
+                        <div class="input-footer">
+                            Press Enter to send, Shift + Enter for new line
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+function chooseOption(option) {
+  const messages = document.getElementById("messages");
+  const welcomeScreen = document.getElementById("welcome-screen");
+  if (welcomeScreen) {
+    welcomeScreen.remove();
+  }
+  if (option === 'school') {
+    messages.innerHTML += `
+      <div class="ai-message">
+        <p>That's wonderful! I'm excited to help you craft your application materials.</p>
+        <p>To make this process more personalized, could you tell me your MBTI personality type (e.g., INFP, ENTJ)?</p>
+      </div>
+    `;
+  } else if (option === 'job') {
+    messages.innerHTML += `
+      <div class="user-message"><p>I need help with my resume.</p></div>
+      <div class="ai-message">
+        <p>Sure! Please tell me what type of job you are applying for and any specific areas you'd like help with.</p>
+      </div>
+    `;
+  }
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// Handle career actions when redirected from careers page
+window.addEventListener('DOMContentLoaded', () => {
+  const careerAction = localStorage.getItem('career_action');
+  if (careerAction) {
+    // Clear the stored action to prevent it from triggering again on page refresh
+    localStorage.removeItem('career_action');
+    
+    const messages = document.getElementById("messages");
+    const welcomeScreen = document.getElementById("welcome-screen");
+    if (welcomeScreen) {
+      welcomeScreen.remove();
+    }
+    
+    // Check current language
+    const currentLang = document.getElementById('lang-toggle').textContent.includes('EN') ? 'zh' : 'en';
+    
+    if (careerAction === 'career_consult') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我需要求职咨询服务</p></div>
+          <div class="ai-message">
+            <p>很高兴为您提供求职咨询服务！我可以帮助您以下几个方面：</p>
+            <p>1. <strong>简历服务</strong>：创建新简历、优化现有简历、针对特定职位调整简历</p>
+            <p>2. <strong>求职匹配</strong>：根据您的技能和兴趣推荐合适的职位</p>
+            <p>3. <strong>工作签证</strong>：提供国际工作签证申请指导和建议</p>
+            <p>您想了解哪方面的信息？或者您有什么具体的求职需求需要帮助？</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I need career consulting services</p></div>
+          <div class="ai-message">
+            <p>I'm happy to provide career consulting services! I can help you in the following areas:</p>
+            <p>1. <strong>Resume Services</strong>: Creating new resumes, optimizing existing resumes, tailoring resumes for specific positions</p>
+            <p>2. <strong>Job Matching</strong>: Recommending suitable positions based on your skills and interests</p>
+            <p>3. <strong>Work Visas</strong>: Providing guidance and advice on international work visa applications</p>
+            <p>Which area would you like to learn more about? Or do you have a specific career need I can help with?</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'interview_assistance') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想获取面试辅助服务</p></div>
+          <div class="ai-message">
+            <p>很高兴为您提供面试辅助服务！我可以帮助您准备各类面试：</p>
+            <p>1. <strong>模拟面试</strong>：根据您的目标职位和行业提供定制化的模拟面试体验</p>
+            <p>2. <strong>面试反馈</strong>：分析您的回答质量、表达方式和整体表现</p>
+            <p>3. <strong>面试技巧</strong>：提供针对性的面试技巧和策略</p>
+            <p>4. <strong>常见问题准备</strong>：帮助您准备行业特定的面试问题</p>
+            <p>请告诉我您即将面试的职位或行业，我可以为您提供更具针对性的帮助。</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want interview assistance services</p></div>
+          <div class="ai-message">
+            <p>I'm happy to provide interview assistance services! I can help you prepare for various types of interviews:</p>
+            <p>1. <strong>Mock Interviews</strong>: Customized interview experience based on your target position and industry</p>
+            <p>2. <strong>Interview Feedback</strong>: Analysis of your answer quality, expression, and overall performance</p>
+            <p>3. <strong>Interview Techniques</strong>: Targeted interview techniques and strategies</p>
+            <p>4. <strong>Common Question Preparation</strong>: Help you prepare for industry-specific interview questions</p>
+            <p>Please tell me the position or industry you're interviewing for, and I can provide more targeted assistance.</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'mock_interview') {
+      // 重定向到视频面试页面
+      window.location.href = '/video-interview';
+    } else if (careerAction === 'interview_feedback') {
+      // 重定向到视频面试页面
+      window.location.href = '/video-interview';
+    } else if (careerAction === 'interview_questions') {
+      // 重定向到视频面试页面
+      window.location.href = '/video-interview';
+    } else if (careerAction === 'video_interview') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想尝试视频面试评分系统</p></div>
+          <div class="ai-message">
+            <p>我们已经为您准备了视频面试评分系统！通过这个系统，您可以:</p>
+            <p>1. 进行模拟面试并获得实时反馈</p>
+            <p>2. 接受AI驱动的面试表现分析</p>
+            <p>3. 获取个性化的改进建议</p>
+            <p>请点击下方按钮开始体验:</p>
+            <p><a href="/video-interview" class="btn" style="display: inline-block; margin-top: 10px; padding: 8px 20px; background-color: #333333; color: white; text-decoration: none; border-radius: 4px;">开始视频面试</a></p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to try the video interview scoring system</p></div>
+          <div class="ai-message">
+            <p>We have prepared a video interview scoring system for you! With this system, you can:</p>
+            <p>1. Conduct mock interviews and receive real-time feedback</p>
+            <p>2. Get AI-driven analysis of your interview performance</p>
+            <p>3. Receive personalized improvement suggestions</p>
+            <p>Please click the button below to start:</p>
+            <p><a href="/video-interview" class="btn" style="display: inline-block; margin-top: 10px; padding: 8px 20px; background-color: #333333; color: white; text-decoration: none; border-radius: 4px;">Start Video Interview</a></p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'singapore_whp') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想了解新加坡工作假期计划</p></div>
+          <div class="ai-message">
+            <p>很高兴为您介绍新加坡工作假期计划！这个项目专为18-25岁的年轻人设计，允许您在新加坡停留最长1年。以下是关键信息：</p>
+            <p><strong>项目特点：</strong></p>
+            <ul>
+              <li>初始签证有效期6个月，表现良好可延长至1年</li>
+              <li>允许在新加坡合法工作和旅行</li>
+              <li>无需雇主担保，可以自由寻找工作机会</li>
+              <li>每年名额有限，需提前申请</li>
+            </ul>
+            <p><strong>申请要求：</strong></p>
+            <ul>
+              <li>年龄：18-25岁</li>
+              <li>持有中国、澳大利亚、法国、德国、香港、日本等合格国家/地区护照</li>
+              <li>具有高等教育背景</li>
+              <li>足够的资金证明（约3000新币）</li>
+              <li>健康证明和保险</li>
+            </ul>
+            <p>您想了解具体的申请流程，还是对新加坡的工作环境有疑问？</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to learn about Singapore Work Holiday Programme</p></div>
+          <div class="ai-message">
+            <p>I'm happy to introduce the Singapore Work Holiday Programme! This program is designed for young people aged 18-25, allowing you to stay in Singapore for up to 1 year. Here's the key information:</p>
+            <p><strong>Program Features:</strong></p>
+            <ul>
+              <li>Initial visa valid for 6 months, extendable to 1 year with good performance</li>
+              <li>Allows legal work and travel in Singapore</li>
+              <li>No employer sponsorship required, freedom to seek job opportunities</li>
+              <li>Limited annual quota, early application recommended</li>
+            </ul>
+            <p><strong>Application Requirements:</strong></p>
+            <ul>
+              <li>Age: 18-25 years old</li>
+              <li>Hold a passport from eligible countries/regions including China, Australia, France, Germany, Hong Kong, Japan, etc.</li>
+              <li>Have higher education background</li>
+              <li>Sufficient funds proof (around SGD 3,000)</li>
+              <li>Health declaration and insurance</li>
+            </ul>
+            <p>Would you like to know more about the specific application process, or do you have questions about the work environment in Singapore?</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'germany_jsv') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想了解德国求职签证</p></div>
+          <div class="ai-message">
+            <p>德国求职签证(Job Seeker Visa)是一个非常好的机会！这个签证专为高学历人才设计，允许您在德国停留6个月寻找工作。以下是主要信息：</p>
+            <p><strong>签证特点：</strong></p>
+            <ul>
+              <li>有效期为6个月</li>
+              <li>允许在德国境内自由寻找工作</li>
+              <li>一旦找到符合要求的工作，可直接转为工作居留许可</li>
+              <li>不允许在求职期间工作，需自行承担生活费用</li>
+            </ul>
+            <p><strong>申请要求：</strong></p>
+            <ul>
+              <li>本科及以上学历（需经德国认证）</li>
+              <li>良好的德语或英语能力（通常需B1德语或B2英语）</li>
+              <li>足够的资金证明（约10,236欧元）</li>
+              <li>合适的专业背景和求职计划</li>
+              <li>医疗保险</li>
+            </ul>
+            <p>您对申请材料准备或德国就业市场有什么具体问题吗？</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to learn about the German Job Seeker Visa</p></div>
+          <div class="ai-message">
+            <p>The German Job Seeker Visa is a great opportunity! This visa is designed for highly qualified professionals, allowing you to stay in Germany for 6 months to search for employment. Here's the key information:</p>
+            <p><strong>Visa Features:</strong></p>
+            <ul>
+              <li>Valid for 6 months</li>
+              <li>Allows freedom to search for employment within Germany</li>
+              <li>Once a suitable job is found, can be directly converted to a work residence permit</li>
+              <li>No permission to work during the job-seeking period, must cover living expenses independently</li>
+            </ul>
+            <p><strong>Application Requirements:</strong></p>
+            <ul>
+              <li>Bachelor's degree or higher (must be recognized in Germany)</li>
+              <li>Good German or English language skills (typically B1 German or B2 English)</li>
+              <li>Proof of sufficient funds (approximately €10,236)</li>
+              <li>Suitable professional background and job search plan</li>
+              <li>Health insurance</li>
+            </ul>
+            <p>Do you have any specific questions about preparing application materials or the German job market?</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'netherlands_oy') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想了解荷兰方向年计划</p></div>
+          <div class="ai-message">
+            <p>荷兰的"方向年"计划(Orientation Year)是一个很好的毕业后工作机会！这个项目允许国际留学生在毕业后有1年时间在荷兰找工作。具体信息如下：</p>
+            <p><strong>计划特点：</strong></p>
+            <ul>
+              <li>有效期为12个月</li>
+              <li>可以在此期间自由找工作，无需工作许可</li>
+              <li>找到工作后可申请高技能移民签证</li>
+              <li>薪资要求较低（比普通高技能移民要求低）</li>
+            </ul>
+            <p><strong>申请条件：</strong></p>
+            <ul>
+              <li>在荷兰高校完成本科、硕士或博士学位</li>
+              <li>或在QS世界大学排名前200的大学毕业</li>
+              <li>毕业后3年内申请</li>
+            </ul>
+            <p><strong>申请材料：</strong></p>
+            <ul>
+              <li>有效护照</li>
+              <li>学位证明</li>
+              <li>健康保险</li>
+              <li>申请费（约170欧元）</li>
+            </ul>
+            <p>您对荷兰的就业市场或申请流程有什么具体问题吗？</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to learn about the Netherlands Orientation Year</p></div>
+          <div class="ai-message">
+            <p>The Netherlands' "Orientation Year" scheme is an excellent post-graduation work opportunity! This program allows international students to have 1 year after graduation to find work in the Netherlands. Here are the specific details:</p>
+            <p><strong>Program Features:</strong></p>
+            <ul>
+              <li>Valid for 12 months</li>
+              <li>Freedom to find work during this period without needing a work permit</li>
+              <li>Option to apply for a highly skilled migrant visa after finding employment</li>
+              <li>Lower salary requirements (compared to regular highly skilled migrant requirements)</li>
+            </ul>
+            <p><strong>Application Conditions:</strong></p>
+            <ul>
+              <li>Completed a Bachelor's, Master's, or PhD degree at a Dutch institution</li>
+              <li>Or graduated from a university ranked in the global top 200 QS ranking</li>
+              <li>Apply within 3 years after graduation</li>
+            </ul>
+            <p><strong>Application Materials:</strong></p>
+            <ul>
+              <li>Valid passport</li>
+              <li>Degree certificate</li>
+              <li>Health insurance</li>
+              <li>Application fee (approximately €170)</li>
+            </ul>
+            <p>Do you have any specific questions about the Dutch job market or application process?</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'ireland_psw') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想了解爱尔兰毕业工作签证</p></div>
+          <div class="ai-message">
+            <p>爱尔兰的毕业后工作签证(Third Level Graduate Scheme)是国际学生的一个很好的机会！这个签证允许您在爱尔兰完成学业后合法找工作。详情如下：</p>
+            <p><strong>签证特点：</strong></p>
+            <ul>
+              <li>本科毕业生：最长1年有效期</li>
+              <li>硕士及以上学历：最长2年有效期</li>
+              <li>无需雇主担保，可自由寻找工作</li>
+              <li>允许全职工作</li>
+              <li>找到工作后可转为工作许可签证</li>
+            </ul>
+            <p><strong>申请条件：</strong></p>
+            <ul>
+              <li>在爱尔兰获得认可的学位（Level 7及以上）</li>
+              <li>有效的学生签证</li>
+              <li>在学习期间保持良好的移民记录</li>
+            </ul>
+            <p><strong>申请流程：</strong></p>
+            <ul>
+              <li>必须在学生签证到期前申请</li>
+              <li>提供完成学业的证明</li>
+              <li>足够的资金证明</li>
+              <li>有效的医疗保险</li>
+            </ul>
+            <p>您对爱尔兰的就业市场或生活环境有什么具体问题吗？</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to learn about the Ireland Post-Study Work Visa</p></div>
+          <div class="ai-message">
+            <p>Ireland's Third Level Graduate Scheme is a great opportunity for international students! This visa allows you to legally find work after completing your studies in Ireland. Here are the details:</p>
+            <p><strong>Visa Features:</strong></p>
+            <ul>
+              <li>Bachelor's graduates: Up to 1 year validity</li>
+              <li>Master's graduates and higher: Up to 2 years validity</li>
+              <li>No employer sponsorship required, freedom to seek employment</li>
+              <li>Permission to work full-time</li>
+              <li>Option to switch to a work permit visa after finding employment</li>
+            </ul>
+            <p><strong>Application Requirements:</strong></p>
+            <ul>
+              <li>Obtained a recognized degree in Ireland (Level 7 or above)</li>
+              <li>Valid student visa</li>
+              <li>Maintained good immigration record during studies</li>
+            </ul>
+            <p><strong>Application Process:</strong></p>
+            <ul>
+              <li>Must apply before student visa expires</li>
+              <li>Provide proof of course completion</li>
+              <li>Show sufficient funds</li>
+              <li>Valid health insurance</li>
+            </ul>
+            <p>Do you have any specific questions about Ireland's job market or living environment?</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'uk_psw') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想了解英国研究生工作签证</p></div>
+          <div class="ai-message">
+            <p>英国的研究生工作签证(Graduate Route)于2021年7月推出，为国际留学生提供了毕业后在英国工作的机会。以下是主要信息：</p>
+            <p><strong>签证特点：</strong></p>
+            <ul>
+              <li>本科和硕士毕业生：2年有效期</li>
+              <li>博士毕业生：3年有效期</li>
+              <li>无需雇主担保，可自由工作或创业</li>
+              <li>无最低薪资要求</li>
+              <li>有效期结束后可切换到技术工作签证（需符合要求）</li>
+            </ul>
+            <p><strong>申请条件：</strong></p>
+            <ul>
+              <li>成功完成英国高等教育学位课程（本科及以上）</li>
+              <li>持有有效的学生签证</li>
+              <li>由已注册的学生签证担保机构担保</li>
+              <li>在英国完成全部或规定部分的学习（远程学习有特殊规定）</li>
+            </ul>
+            <p><strong>申请流程：</strong></p>
+            <ul>
+              <li>必须在英国境内申请</li>
+              <li>需支付申请费（约700英镑）和医疗附加费</li>
+              <li>提供生物识别信息</li>
+            </ul>
+            <p>您对英国的就业市场或特定行业有什么问题吗？</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to learn about the UK Graduate Route Visa</p></div>
+          <div class="ai-message">
+            <p>The UK Graduate Route visa was launched in July 2021, providing international students with the opportunity to work in the UK after graduation. Here's the key information:</p>
+            <p><strong>Visa Features:</strong></p>
+            <ul>
+              <li>Bachelor's and Master's graduates: 2 years validity</li>
+              <li>PhD graduates: 3 years validity</li>
+              <li>No employer sponsorship required, freedom to work or start a business</li>
+              <li>No minimum salary requirement</li>
+              <li>Option to switch to a Skilled Worker visa after the period ends (if meeting requirements)</li>
+            </ul>
+            <p><strong>Application Requirements:</strong></p>
+            <ul>
+              <li>Successfully completed a UK higher education degree (Bachelor's or above)</li>
+              <li>Hold a valid student visa</li>
+              <li>Sponsorship from a registered student visa sponsor institution</li>
+              <li>Completed all or the required portion of studies in the UK (special provisions for remote learning)</li>
+            </ul>
+            <p><strong>Application Process:</strong></p>
+            <ul>
+              <li>Must apply from within the UK</li>
+              <li>Pay the application fee (approximately £700) and Immigration Health Surcharge</li>
+              <li>Provide biometric information</li>
+            </ul>
+            <p>Do you have any questions about the UK job market or specific industries?</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'canada_pgwp') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想了解加拿大毕业工签计划</p></div>
+          <div class="ai-message">
+            <p>加拿大的毕业后工作许可计划(Post-Graduation Work Permit, PGWP)是国际留学生获得加拿大工作经验的绝佳途径。以下是详细信息：</p>
+            <p><strong>计划特点：</strong></p>
+            <ul>
+              <li>根据学习时长获得相应工作许可：
+                <ul>
+                  <li>学习不到8个月：不符合条件</li>
+                  <li>学习8个月至2年：与学习时间等长的工作许可</li>
+                  <li>学习2年以上：3年工作许可</li>
+                </ul>
+              </li>
+              <li>开放式工作许可，可为任何雇主工作</li>
+              <li>无需雇主担保</li>
+              <li>是获得加拿大永久居留权的重要途径</li>
+            </ul>
+            <p><strong>申请条件：</strong></p>
+            <ul>
+              <li>在加拿大认可的全日制教育机构完成至少8个月学习</li>
+              <li>持有有效的学习许可或已过期不超过180天</li>
+              <li>获得学位、文凭或证书</li>
+              <li>在加拿大保持合法身份</li>
+            </ul>
+            <p><strong>申请流程：</strong></p>
+            <ul>
+              <li>在学习许可到期前或到期后180天内申请</li>
+              <li>提供完成学业的证明（成绩单和学位证书）</li>
+              <li>支付申请费（约255加元）</li>
+            </ul>
+            <p>您对加拿大的就业机会或移民途径有什么具体问题吗？</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to learn about the Canada Post-Graduation Work Permit</p></div>
+          <div class="ai-message">
+            <p>Canada's Post-Graduation Work Permit (PGWP) program is an excellent way for international students to gain Canadian work experience. Here's the detailed information:</p>
+            <p><strong>Program Features:</strong></p>
+            <ul>
+              <li>Work permit duration based on length of study:
+                <ul>
+                  <li>Studies less than 8 months: Not eligible</li>
+                  <li>Studies 8 months to 2 years: Work permit equal to study duration</li>
+                  <li>Studies more than 2 years: 3-year work permit</li>
+                </ul>
+              </li>
+              <li>Open work permit, allowing employment with any employer</li>
+              <li>No employer sponsorship required</li>
+              <li>Important pathway to Canadian permanent residency</li>
+            </ul>
+            <p><strong>Application Requirements:</strong></p>
+            <ul>
+              <li>Completed at least 8 months of full-time study at a recognized Canadian educational institution</li>
+              <li>Hold a valid study permit or one that expired no more than 180 days ago</li>
+              <li>Obtained a degree, diploma, or certificate</li>
+              <li>Maintained legal status in Canada</li>
+            </ul>
+            <p><strong>Application Process:</strong></p>
+            <ul>
+              <li>Apply before study permit expires or within 180 days after expiration</li>
+              <li>Provide proof of program completion (transcript and degree certificate)</li>
+              <li>Pay application fee (approximately CAD 255)</li>
+            </ul>
+            <p>Do you have any specific questions about job opportunities in Canada or immigration pathways?</p>
+          </div>
+        `;
+      }
+    } else if (careerAction === 'intl_work_programs') {
+      if (currentLang === 'zh') {
+        messages.innerHTML += `
+          <div class="user-message"><p>我想了解更多国际工作项目</p></div>
+          <div class="ai-message">
+            <p>很高兴您对国际工作项目感兴趣！除了我们网站上介绍的项目外，还有很多适合年轻人的国际工作机会：</p>
+            <p><strong>1. 澳大利亚技术独立移民</strong></p>
+            <ul>
+              <li>针对45岁以下的技术人才</li>
+              <li>需要通过技术评估和打分系统</li>
+              <li>无需雇主担保，但需要职业在技术移民职业列表上</li>
+            </ul>
+            <p><strong>2. 新西兰技能移民</strong></p>
+            <ul>
+              <li>基于积分系统评估申请人资格</li>
+              <li>重视工作经验、学历和年龄</li>
+              <li>提供工作到居留的途径</li>
+            </ul>
+            <p><strong>3. 日本特定技能签证</strong></p>
+            <ul>
+              <li>针对14个特定行业的技术工人</li>
+              <li>初始期限最长5年</li>
+              <li>无学历要求，但需通过技能和语言测试</li>
+            </ul>
+            <p><strong>4. 法国人才护照</strong></p>
+            <ul>
+              <li>针对高技能人才、企业家和艺术家</li>
+              <li>4年有效期，可续签</li>
+              <li>允许家属随行</li>
+            </ul>
+            <p><strong>5. 北欧国家专家移民计划</strong></p>
+            <ul>
+              <li>丹麦、芬兰、瑞典等国针对专业人才的快速通道</li>
+              <li>通常需要专业技能和工作机会</li>
+              <li>提供便捷的居留途径</li>
+            </ul>
+            <p>您对哪个国家或地区的工作机会特别感兴趣？我可以提供更详细的信息。</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="user-message"><p>I want to learn more about international work programs</p></div>
+          <div class="ai-message">
+            <p>I'm glad you're interested in international work programs! In addition to the programs introduced on our website, there are many other international work opportunities suitable for young people:</p>
+            <p><strong>1. Australia Skilled Independent Visa</strong></p>
+            <ul>
+              <li>For skilled professionals under 45 years old</li>
+              <li>Requires passing skills assessment and points-based system</li>
+              <li>No employer sponsorship needed, but occupation must be on the skilled occupation list</li>
+            </ul>
+            <p><strong>2. New Zealand Skilled Migration</strong></p>
+            <ul>
+              <li>Evaluates applicants based on a points system</li>
+              <li>Emphasizes work experience, education, and age</li>
+              <li>Provides pathway from work to residence</li>
+            </ul>
+            <p><strong>3. Japan Specified Skilled Worker Visa</strong></p>
+            <ul>
+              <li>For technical workers in 14 specific industries</li>
+              <li>Initial period of up to 5 years</li>
+              <li>No education requirements, but must pass skills and language tests</li>
+            </ul>
+            <p><strong>4. French Talent Passport</strong></p>
+            <ul>
+              <li>For highly skilled professionals, entrepreneurs, and artists</li>
+              <li>4-year validity, renewable</li>
+              <li>Allows family members to accompany</li>
+            </ul>
+            <p><strong>5. Nordic Countries Expert Migration Programs</strong></p>
+            <ul>
+              <li>Fast-track programs for professional talents in Denmark, Finland, Sweden, etc.</li>
+              <li>Usually requires professional skills and job offers</li>
+              <li>Provides convenient residence pathways</li>
+            </ul>
+            <p>Which country or region's work opportunities are you particularly interested in? I can provide more detailed information.</p>
+          </div>
+        `;
+      }
+    }
+    messages.scrollTop = messages.scrollHeight;
+  }
+});
+
+function handleMBTIInput(type) {
+  const messages = document.getElementById("messages");
+  const mbti = type.trim().toUpperCase();
+
+  fetch("{{ url_for('static', filename='js/mbti_data.json') }}")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to load MBTI database.");
+      }
+      return response.json();
+    })
+    .then(data => {
+      const info = data[mbti];
+      if (info) {
+        messages.innerHTML += `
+          <div class="ai-message">
+            <p><strong>${mbti}</strong> Personality Summary:</p>
+            <p>${info.strength}</p>
+            <p><strong>Recommendation for Essays:</strong> ${info.recommendation}</p>
+          </div>
+        `;
+      } else {
+        messages.innerHTML += `
+          <div class="ai-message">
+            <p><strong>${mbti}</strong> Personality Summary:</p>
+            <p>This MBTI type is characterized by unique cognitive preferences. While we don't yet have a full profile, you can describe your strengths and interests to receive personalized essay advice.</p>
+            <p><strong>Recommendation for Essays:</strong> Use vivid examples to showcase your personality, values, and motivations aligned with your MBTI qualities.</p>
+          </div>
+        `;
+      }
+      messages.scrollTop = messages.scrollHeight;
+    })
+    .catch(err => {
+      messages.innerHTML += `
+        <div class="ai-message">
+          <p>Sorry, there was an error processing your request.</p>
+        </div>
+      `;
+      messages.scrollTop = messages.scrollHeight;
+    });
+}
+
+// 修改聊天功能代码，使用新的API端点
+document.addEventListener('DOMContentLoaded', () => {
+  const chatForm = document.getElementById('chat-form');
+  const messageInput = document.getElementById('message-input');
+  const messagesContainer = document.getElementById('messages');
+  
+  // 自动调整输入框高度
+  messageInput.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight) + 'px';
+    if (this.scrollHeight > 200) {
+      this.style.height = '200px';
+      this.style.overflowY = 'scroll';
+    } else {
+      this.style.overflowY = 'hidden';
+    }
+  });
+  
+  // 处理回车键
+  messageInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      chatForm.dispatchEvent(new Event('submit'));
+    }
+  });
+  
+  // 处理提交
+  chatForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const message = messageInput.value.trim();
+    if (!message) return;
+    
+    // 添加用户消息到聊天区域
+    const userMsgEl = document.createElement('div');
+    userMsgEl.className = 'user-message';
+    userMsgEl.textContent = message;
+    messagesContainer.appendChild(userMsgEl);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    // 清空并重置输入框
+    messageInput.value = '';
+    messageInput.style.height = 'auto';
+    
+    // 显示加载指示器
+    const loadingEl = document.createElement('div');
+    loadingEl.className = 'ai-message';
+    loadingEl.innerHTML = '<div class="loading">思考中<span>.</span><span>.</span><span>.</span></div>';
+    loadingEl.setAttribute('data-loading', 'true');
+    messagesContainer.appendChild(loadingEl);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    // Claude API Key
+    const claudeApiKey = localStorage.getItem('claude_api_key') || '';
+    // 调用AI聊天API
+    fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: message,
+        claude_api_key: claudeApiKey
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('API请求失败: ' + response.status);
+      }
+      return response.json();
+    })
+    .then(data => {
+      // 移除加载指示器
+      const loadingElement = document.querySelector('[data-loading="true"]');
+      if (loadingElement) {
+        messagesContainer.removeChild(loadingElement);
+      }
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      // 添加AI回复
+      const aiMsgEl = document.createElement('div');
+      aiMsgEl.className = 'ai-message';
+      aiMsgEl.textContent = data.response || '抱歉，未能获取有效回复';
+      messagesContainer.appendChild(aiMsgEl);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    })
+    .catch(error => {
+      console.error('API错误:', error);
+      
+      // 移除加载指示器
+      const loadingElement = document.querySelector('[data-loading="true"]');
+      if (loadingElement) {
+        messagesContainer.removeChild(loadingElement);
+      }
+      
+      // 显示错误消息
+      const errorEl = document.createElement('div');
+      errorEl.className = 'ai-message';
+      errorEl.textContent = '抱歉，发生了错误: ' + error.message;
+      messagesContainer.appendChild(errorEl);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+  });
+});
+
+function showApiKeyModal() {
+  document.getElementById('api-key-modal').style.display = 'flex';
+  document.getElementById('claude-api-key-input').value = localStorage.getItem('claude_api_key') || '';
+}
+function hideApiKeyModal() {
+  document.getElementById('api-key-modal').style.display = 'none';
+}
+function saveClaudeApiKey() {
+  const key = document.getElementById('claude-api-key-input').value.trim();
+  localStorage.setItem('claude_api_key', key);
+  hideApiKeyModal();
+  alert('Claude API Key saved!');
+}
+</script>
+</body>
+</html>

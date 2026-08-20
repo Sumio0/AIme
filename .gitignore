@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+.env
+
+# Uploads / local session data
+temp_uploads/
+data/interviews/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/ 

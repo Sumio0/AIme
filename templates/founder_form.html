@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - 注册成为联合创始人</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- language scripts removed -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .top-nav {
+            width: 100%;
+            background-color: #0f1117;
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .lang-button {
+            background: transparent;
+            border: 1px solid #666;
+            color: #ccc;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .lang-button:hover {
+            color: white;
+            border-color: #aaa;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 8px;
+            font-weight: 400;
+            user-select: none;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .form-description {
+            font-size: 1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #333;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: #0066cc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-help {
+            display: block;
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .checkbox-group {
+            margin-top: 15px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .checkbox-input {
+            margin-right: 10px;
+        }
+        
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .tag-option {
+            display: none;
+        }
+        
+        .tag-label {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .tag-option:checked + .tag-label {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #0066cc;
+            background: #f0f7ff;
+        }
+        
+        .file-upload-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #0066cc;
+        }
+        
+        .file-upload-text {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .submit-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+        
+        /* Language display rules removed */
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('community') }}" class="nav-item">Community</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item">Careers</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item">Exchange</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item active">Startup Center</a>
+            </div>
+            <div class="nav-right">
+                <!-- language toggle button removed -->
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Flash 消息显示区域 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages" style="max-width: 900px; margin: 20px auto; padding: 0 20px;">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}" style="padding: 15px; margin-bottom: 20px; border-radius: 4px; {% if category == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% elif category == 'error' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% else %}background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <div class="container">
+        <div class="form-header">
+            <h1 class="form-title">
+                Become a Co-founder
+            </h1>
+            <p class="form-description">
+                Join the global startup ecosystem, find the right project or partner, and showcase your professional skills and experience
+            </p>
+        </div>
+        
+        <form id="founder-form" action="{{ url_for('submit_founder') }}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label" for="founder-name">
+                    Name *
+                </label>
+                <input class="form-input" type="text" id="founder-name" name="founder_name" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="founder-title">
+                            Professional Title *
+                        </label>
+                        <input class="form-input" type="text" id="founder-title" name="founder_title" required>
+                        <span class="form-help">
+                            E.g.: Full-stack Developer, Product Manager, Marketing Expert, etc.
+                        </span>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="founder-experience">
+                            Work Experience *
+                        </label>
+                        <select class="form-select" id="founder-experience" name="founder_experience" required>
+                            <option value="0-2">0-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="6-10">6-10 years</option>
+                            <option value="10+">10+ years</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="founder-bio">
+                    Bio *
+                </label>
+                <textarea class="form-textarea" id="founder-bio" name="founder_bio" required></textarea>
+                <span class="form-help">
+                    Briefly describe your professional background, skills, and achievements
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="founder-previous">
+                    Previous Experience (Optional)
+                </label>
+                <input class="form-input" type="text" id="founder-previous" name="founder_previous">
+                <span class="form-help">
+                    E.g.: Ex-Google, Ex-Alibaba, 3x Founder, etc.
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    Professional Skills *
+                </label>
+                <div class="tag-container">
+                    <input type="checkbox" id="skill-coding" name="founder_skills" value="coding" class="tag-option">
+                    <label for="skill-coding" class="tag-label">
+                        Coding/Development
+                    </label>
+                    
+                    <input type="checkbox" id="skill-design" name="founder_skills" value="design" class="tag-option">
+                    <label for="skill-design" class="tag-label">
+                        UI/UX Design
+                    </label>
+                    
+                    <input type="checkbox" id="skill-product" name="founder_skills" value="product" class="tag-option">
+                    <label for="skill-product" class="tag-label">
+                        Product Management
+                    </label>
+                    
+                    <input type="checkbox" id="skill-marketing" name="founder_skills" value="marketing" class="tag-option">
+                    <label for="skill-marketing" class="tag-label">
+                        Marketing
+                    </label>
+                    
+                    <input type="checkbox" id="skill-sales" name="founder_skills" value="sales" class="tag-option">
+                    <label for="skill-sales" class="tag-label">
+                        Sales
+                    </label>
+                    
+                    <input type="checkbox" id="skill-operations" name="founder_skills" value="operations" class="tag-option">
+                    <label for="skill-operations" class="tag-label">
+                        Operations
+                    </label>
+                    
+                    <input type="checkbox" id="skill-finance" name="founder_skills" value="finance" class="tag-option">
+                    <label for="skill-finance" class="tag-label">
+                        Finance/Investment
+                    </label>
+                    
+                    <input type="checkbox" id="skill-hr" name="founder_skills" value="hr" class="tag-option">
+                    <label for="skill-hr" class="tag-label">
+                        HR
+                    </label>
+                    
+                    <input type="checkbox" id="skill-data" name="founder_skills" value="data" class="tag-option">
+                    <label for="skill-data" class="tag-label">
+                        Data Analytics
+                    </label>
+                    
+                    <input type="checkbox" id="skill-ai" name="founder_skills" value="ai" class="tag-option">
+                    <label for="skill-ai" class="tag-label">
+                        AI/ML
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    Interested Startup Sectors *
+                </label>
+                <div class="tag-container">
+                    <input type="checkbox" id="interest-tech" name="founder_interests" value="tech" class="tag-option">
+                    <label for="interest-tech" class="tag-label">
+                        Technology
+                    </label>
+                    
+                    <input type="checkbox" id="interest-health" name="founder_interests" value="health" class="tag-option">
+                    <label for="interest-health" class="tag-label">
+                        Healthcare
+                    </label>
+                    
+                    <input type="checkbox" id="interest-education" name="founder_interests" value="education" class="tag-option">
+                    <label for="interest-education" class="tag-label">
+                        Education
+                    </label>
+                    
+                    <input type="checkbox" id="interest-finance" name="founder_interests" value="finance" class="tag-option">
+                    <label for="interest-finance" class="tag-label">
+                        Finance
+                    </label>
+                    
+                    <input type="checkbox" id="interest-ecommerce" name="founder_interests" value="ecommerce" class="tag-option">
+                    <label for="interest-ecommerce" class="tag-label">
+                        E-commerce
+                    </label>
+                    
+                    <input type="checkbox" id="interest-sustainability" name="founder_interests" value="sustainability" class="tag-option">
+                    <label for="interest-sustainability" class="tag-label">
+                        Sustainability
+                    </label>
+                    
+                    <input type="checkbox" id="interest-social" name="founder_interests" value="social" class="tag-option">
+                    <label for="interest-social" class="tag-label">
+                        Social Media
+                    </label>
+                    
+                    <input type="checkbox" id="interest-ai" name="founder_interests" value="ai" class="tag-option">
+                    <label for="interest-ai" class="tag-label">
+                        AI
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    Profile Photo (Optional)
+                </label>
+                <div class="file-upload" id="file-upload-container">
+                    <div class="file-upload-icon">📁</div>
+                    <div class="file-upload-text">
+                        Click to upload or drag and drop an image file
+                    </div>
+                    <input type="file" id="founder-photo" name="founder_photo" class="file-input" accept="image/*">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="founder-email">
+                            Contact Email *
+                        </label>
+                        <input class="form-input" type="email" id="founder-email" name="founder_email" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="founder-social">
+                            Social Media Link (Optional)
+                        </label>
+                        <input class="form-input" type="url" id="founder-social" name="founder_social">
+                        <span class="form-help">
+                            LinkedIn, GitHub, or personal website
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="founder-seeking">
+                    What are you looking for? *
+                </label>
+                <select class="form-select" id="founder-seeking" name="founder_seeking" required>
+                    <option value="idea">Startup Ideas</option>
+                    <option value="cofounder">Co-founders</option>
+                    <option value="funding">Funding</option>
+                    <option value="team">Team Members</option>
+                    <option value="partnership">Business Partners</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" id="has-project" name="has_project" value="yes">
+                        I already have a startup project/idea
+                    </label>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" id="public-contact" name="public_contact" value="yes">
+                        Allow my contact information to be public on the platform
+                    </label>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" id="agree-terms" name="agree_terms" value="yes" required>
+                        I agree to AIme Startup Center's Terms of Service and Privacy Policy
+                    </label>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button type="submit" class="submit-btn">
+                    Submit Profile
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // 文件上传预览
+        const fileUploadContainer = document.getElementById('file-upload-container');
+        const fileInput = document.getElementById('founder-photo');
+        
+        fileUploadContainer.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    fileUploadContainer.style.backgroundImage = `url(${e.target.result})`;
+                    fileUploadContainer.style.backgroundSize = 'cover';
+                    fileUploadContainer.style.backgroundPosition = 'center';
+                    fileUploadContainer.querySelector('.file-upload-icon').style.display = 'none';
+                    fileUploadContainer.querySelector('.file-upload-text').style.display = 'none';
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // 表单验证
+        const founderForm = document.getElementById('founder-form');
+        founderForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // 检查至少选择一个技能
+            const skillCheckboxes = document.querySelectorAll('input[name="founder_skills"]');
+            const hasSkill = Array.from(skillCheckboxes).some(checkbox => checkbox.checked);
+            
+            if (!hasSkill) {
+                isValid = false;
+                alert('Please select at least one professional skill.');
+            }
+            // 检查至少选择一个感兴趣的领域
+            const interestCheckboxes = document.querySelectorAll('input[name="founder_interests"]');
+            const hasInterest = Array.from(interestCheckboxes).some(checkbox => checkbox.checked);
+            if (!hasInterest) {
+                isValid = false;
+                alert('Please select at least one interested startup sector.');
+            }
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html> 

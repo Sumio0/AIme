@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - Your AI-Powered Career Partner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: #000;
+        }
+
+        .top-nav {
+            width: 100%;
+            background-color: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+            margin: 0 auto;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+            display: none;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 4px;
+            font-weight: 400;
+            user-select: none;
+        }
+
+        .content {
+            position: relative;
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(45deg, #fff, #aef);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .intro-card {
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .intro-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(174, 239, 255, 0.3);
+        }
+
+        .intro-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #aef, #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .intro-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .intro-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #0066cc, #00aaff);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .header p {
+                font-size: 1.1rem;
+            }
+        }
+
+        .rating-section {
+            background-color: #f9f9f9;
+            padding: 80px 0;
+        }
+        
+        .rating-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .rating-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .rating-stars {
+            color: #ffd700;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .rating-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        
+        .rating-author {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .video-interview {
+            padding: 80px 0;
+            background: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+        }
+
+        .video-interview .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .video-interview .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .video-card {
+            background: rgba(20, 20, 30, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .play-button svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .video-desc {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('index') }}" class="nav-item">Home</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('intro') }}" class="nav-item active">About Us</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('community') }}" class="nav-item">Community</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item">Careers</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item">Exchange</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item">Startup Center</a>
+            </div>
+            <div class="nav-right">
+                <!-- Language toggle button is hidden -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div class="header">
+            <h1>AIME — Your AI-Powered Career Partner</h1>
+            <p>Hi! I’m AIME, a fast-thinking and creative AI advisor. I enjoy challenging conventional thinking and exploring new perspectives. Every problem has multiple solutions—and discovering the most ingenious one is my favorite part. What interesting question shall we explore together today?</p>
+        </div>
+
+        <div class="intro-grid">
+            <div class="intro-card">
+                <div class="intro-icon">🚀</div>
+                <h3 class="intro-title">Intelligent Career Planning</h3>
+                <p class="intro-text">
+                    AIME utilizes advanced AI to analyze your skills, experiences, and interests, offering personalized career development advice and path planning to help you make more informed career decisions.
+                </p>
+            </div>
+
+            <div class="intro-card">
+                <div class="intro-icon">🌐</div>
+                <h3 class="intro-title">Seamless Bilingual Support</h3>
+                <p class="intro-text">
+                    Our platform supports seamless switching between Chinese and English, providing a smooth localized experience whether you're in China or an international environment, eliminating language barriers and expanding your global career perspective.
+                </p>
+            </div>
+
+            <div class="intro-card">
+                <div class="intro-icon">🤖</div>
+                <h3 class="intro-title">AI Interview Simulation</h3>
+                <p class="intro-text">
+                    Get professional interview feedback and advice through AI interview simulations with real-time voice interaction. Practice anytime, anywhere to improve your interview skills and confidence, preparing thoroughly for real interviews.
+                </p>
+            </div>
+
+            <div class="intro-card">
+                <div class="intro-icon">📄</div>
+                <h3 class="intro-title">Smart Resume Optimization</h3>
+                <p class="intro-text">
+                    Our AI assistant analyzes job requirements to provide targeted resume optimization suggestions and generate professional resume content, significantly increasing your resume pass rate and interview opportunities.
+                </p>
+            </div>
+
+            <div class="intro-card">
+                <div class="intro-icon">🌍</div>
+                <h3 class="intro-title">Global Education & Employment Resources</h3>
+                <p class="intro-text">
+                    Integrating high-quality global study abroad, exchange, GAP year, and entrepreneurship opportunities, providing comprehensive overseas experience and employment guidance to expand your international perspective and career possibilities.
+                </p>
+            </div>
+
+            <div class="intro-card">
+                <div class="intro-icon">👥</div>
+                <h3 class="intro-title">Community Support & Exchange</h3>
+                <p class="intro-text">
+                    Join our vibrant career community to share experiences with like-minded people, gain industry insights, establish valuable professional connections, and grow together.
+                </p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <a href="{{ url_for('index') }}" class="cta-button">Start Your Career Journey</a>
+        </div>
+    </div>
+
+    <section class="video-interview">
+        <div class="container">
+            <h2 class="section-title">
+                Video Interview
+            </h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://source.unsplash.com/random/600x400/?interview,tech" alt="Video Interview">
+                        <div class="play-button">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 5v14l11-7z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">
+                            AIme Founder Interview: Building Smart Job Assistant
+                        </h3>
+                        <p class="video-desc">
+                            Learn how AIme uses AI technology to help job seekers find their ideal jobs
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://source.unsplash.com/random/600x400/?career,success" alt="Success Story">
+                        <div class="play-button">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 5v14l11-7z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">
+                            User Success Story: From Confusion to Clarity
+                        </h3>
+                        <p class="video-desc">
+                            Hear how our users found their career direction through AIme
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WebGL Animation -->
+    <script type="x-shader/x-fragment">#version 300 es
+/*********
+* made by Matthias Hurrle (@atzedent)
+*/
+precision highp float;
+out vec4 O;
+uniform float time;
+uniform vec2 resolution;
+#define FC gl_FragCoord.xy
+#define R resolution
+#define T time
+#define S smoothstep
+#define N normalize
+#define rot(a) mat2(cos(a-vec4(0,11,33,0)))
+vec3 palette(float t) { vec3 a=vec3(.2),b=vec3(.4),c=vec3(.55),d=vec3(.12,.14,.16); return a+b*cos(6.3*(c*t+d)); }
+float rnd(vec2 p) {
+	p=fract(p*vec2(12.9898,78.233));
+	p+=dot(p,p+34.56);
+	return fract(p.x*p.y);
+}
+float noise(vec2 p) {
+	vec2 i=floor(p), f=fract(p), u=f*f*(3.-2.*f), k=vec2(1,0);
+	float
+	a=rnd(i),
+	b=rnd(i+k),
+	c=rnd(i+k.yx),
+	d=rnd(i+1.);
+	return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);
+}
+float fbm(vec2 p) {
+	float t=.0, a=1., h=.0;
+	for (float i=.0; i<4.; i++) {
+		t+=a*noise(p);
+		p*=2.;
+		a*=.5;
+		h+=a;
+	}
+	return t/h;
+}
+vec3 pattern(vec2 uv) {
+    vec3 col=vec3(0);
+    vec2 p=uv;
+    float d=1.;
+    for (float i=.0; i<3.; i++) {
+        p.x=cos(T-uv.x)*i; p.y=sin(T+uv.y)*i;
+        uv*=2.;
+        d+=fbm(.5+p-uv*d);
+        col+=palette(d);
+    }
+    return col;
+}
+void main(void) {
+    const float scale=.1;
+    vec2 uv=(FC-.5*R)/min(R.x,R.y), dir=vec2(0,1);
+    vec3 col=vec3(0);
+    uv*=rot(T*.1);
+    col+=pattern(uv);
+    for (int i=1; i<12; i++) {
+        col=max(col,pattern(uv));
+        uv += dir*scale;
+        dir*=rot(.39);
+    }
+    col=tanh(col*col);
+    col=mix(vec3(.08),col,min(time*.2,1.));
+    O=vec4(col,1);
+}</script>
+
+    <script>
+        let resolution = 0.5 // Setting 0.5 as starting half-resolution
+        let dpr = Math.max(1, resolution * window.devicePixelRatio)
+        let canvas = document.getElementById('canvas')
+        let frm, renderer
+        
+        function resize() {
+            const { innerWidth: width, innerHeight: height } = window
+            canvas.width = width * dpr
+            canvas.height = height * dpr
+            if (renderer) {
+                renderer.updateScale(dpr)
+            }
+        }
+        
+        function loop(now) {
+            renderer.render(now)
+            frm = requestAnimationFrame(loop)
+        }
+        
+        window.onload = function() {
+            renderer = new Renderer(canvas, dpr)
+            resize()
+            renderer.setup()
+            renderer.init()
+            loop(0)
+            window.onresize = resize
+        }
+        
+        class Renderer {
+            #vertexSrc = "#version 300 es\nprecision highp float;\nin vec4 position;\nvoid main(){gl_Position=position;}"
+            #fragmtSrc = ""
+            #vertices = [-1, 1, -1, -1, 1, 1, 1, -1]
+            constructor(canvas, scale) {
+                this.canvas = canvas
+                this.scale = scale
+                this.gl = canvas.getContext("webgl2")
+                this.gl.viewport(0, 0, canvas.width * scale, canvas.height * scale)
+                this.shaderSource = document.querySelector("script[type='x-shader/x-fragment']").textContent
+            }
+            
+            updateScale(scale) {
+                this.scale = scale
+                this.gl.viewport(0, 0, this.canvas.width * scale, this.canvas.height * scale)
+            }
+            
+            compile(shader, source) {
+                const gl = this.gl
+                gl.shaderSource(shader, source)
+                gl.compileShader(shader)
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.error(gl.getShaderInfoLog(shader))
+                }
+            }
+            
+            setup() {
+                const gl = this.gl
+                this.vs = gl.createShader(gl.VERTEX_SHADER)
+                this.fs = gl.createShader(gl.FRAGMENT_SHADER)
+                this.compile(this.vs, this.#vertexSrc)
+                this.compile(this.fs, this.shaderSource)
+                this.program = gl.createProgram()
+                gl.attachShader(this.program, this.vs)
+                gl.attachShader(this.program, this.fs)
+                gl.linkProgram(this.program)
+                
+                if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
+                    console.error(gl.getProgramInfoLog(this.program))
+                }
+            }
+            
+            init() {
+                const { gl, program } = this
+                this.buffer = gl.createBuffer()
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer)
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.#vertices), gl.STATIC_DRAW)
+                
+                const position = gl.getAttribLocation(program, "position")
+                gl.enableVertexAttribArray(position)
+                gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
+                
+                program.resolution = gl.getUniformLocation(program, "resolution")
+                program.time = gl.getUniformLocation(program, "time")
+            }
+            
+            render(now = 0) {
+                const { gl, program, buffer, canvas } = this
+                gl.clearColor(0, 0, 0, 1)
+                gl.clear(gl.COLOR_BUFFER_BIT)
+                gl.useProgram(program)
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+                gl.uniform2f(program.resolution, canvas.width, canvas.height)
+                gl.uniform1f(program.time, now * 1e-3)
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+            }
+        }
+    </script>
+
+    <!-- Rating Section -->
+    <section class="rating-section">
+        <div class="container">
+            <h2 class="section-title">
+                User Ratings
+            </h2>
+            <div class="rating-grid">
+                <div class="rating-card">
+                    <div class="rating-stars">★★★★★</div>
+                    <p class="rating-text">
+                        "AIme helped me find my dream job, highly recommended!"
+                    </p>
+                    <div class="rating-author">
+                        - Zhang Ming
+                    </div>
+                </div>
+                
+                <div class="rating-card">
+                    <div class="rating-stars">★★★★★</div>
+                    <p class="rating-text">
+                        "The smart matching feature is very accurate and saves a lot of time."
+                    </p>
+                    <div class="rating-author">
+                        - Li Hua
+                    </div>
+                </div>
+                
+                <div class="rating-card">
+                    <div class="rating-stars">★★★★★</div>
+                    <p class="rating-text">
+                        "The career planning advice is very professional and helped me clarify my direction."
+                    </p>
+                    <div class="rating-author">
+                        - Wang Fang
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html> 

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - Resume Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/language.js') }}"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .top-nav {
+            width: 100%;
+            background-color: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+            margin: 0 auto;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+            display: none;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 4px;
+            font-weight: 400;
+            user-select: none;
+        }
+        
+        .lang-button {
+            background: transparent;
+            border: 1px solid #666;
+            color: #ccc;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 20px;
+        }
+        
+        .lang-button:hover {
+            color: white;
+            border-color: #aaa;
+        }
+        
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .resume-form {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-group select {
+            background-color: white;
+        }
+        
+        .form-group .help-text {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn:hover {
+            background-color: #555555;
+        }
+        
+        .btn-secondary {
+            background-color: #666;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #888;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-center {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title" data-i18n="brand">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('community') }}" class="nav-item" data-i18n="community">社区</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item" data-i18n="career">求职</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item" data-i18n="gap">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item" data-i18n="startup">创业中心</a>
+            </div>
+            <div class="nav-right">
+                <button id="lang-toggle" class="lang-button">EN / 中文</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="page-container">
+        <h1 class="page-title" data-i18n="resume-generator">Resume Generator</h1>
+        <p class="page-subtitle" data-i18n="resume-subtitle">Create a professional resume that stands out to employers</p>
+        
+        <form id="resumeForm" class="resume-form" action="{{ url_for('submit_resume') }}" method="POST">
+            <div class="form-group">
+                <label for="name" data-i18n="full-name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" data-i18n="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone" data-i18n="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="location" data-i18n="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="summary" data-i18n="professional-summary">Professional Summary</label>
+                <textarea id="summary" name="summary" required></textarea>
+                <p class="help-text" data-i18n="summary-help">Brief overview of your professional background and key strengths</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="experience" data-i18n="work-experience">Work Experience</label>
+                <textarea id="experience" name="experience" required></textarea>
+                <p class="help-text" data-i18n="experience-help">List your work experience in reverse chronological order</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="education" data-i18n="education">Education</label>
+                <textarea id="education" name="education" required></textarea>
+                <p class="help-text" data-i18n="education-help">List your educational background</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="skills" data-i18n="skills">Skills</label>
+                <textarea id="skills" name="skills" required></textarea>
+                <p class="help-text" data-i18n="skills-help">List your key skills and competencies</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="template" data-i18n="resume-template">Resume Template</label>
+                <select id="template" name="template" required>
+                    <option value="modern" data-i18n="template-modern">Modern</option>
+                    <option value="professional" data-i18n="template-professional">Professional</option>
+                    <option value="creative" data-i18n="template-creative">Creative</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn" data-i18n="generate-resume">Generate Resume</button>
+                <a href="{{ url_for('careers') }}" class="btn btn-secondary" data-i18n="cancel">Cancel</a>
+            </div>
+        </form>
+
+        <div id="optimizedResult" style="white-space: pre-wrap; margin-top:40px; background:#fafafa; padding:20px; border-radius:8px; display:none;"></div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('language') || 'en';
+            updateLanguage(savedLang);
+            
+            document.getElementById('lang-toggle').addEventListener('click', function() {
+                const currentLang = localStorage.getItem('language') || 'en';
+                const newLang = currentLang === 'en' ? 'zh' : 'en';
+                updateLanguage(newLang);
+            });
+
+            // Intercept form submission
+            const form = document.getElementById('resumeForm');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Build resume text by concatenating fields
+                const formData = new FormData(form);
+                const fields = ['name', 'email', 'phone', 'location', 'summary', 'experience', 'education', 'skills'];
+                let resumeText = '';
+                fields.forEach(f => {
+                    const val = formData.get(f);
+                    if (val) {
+                        resumeText += `${f.toUpperCase()}\n${val}\n\n`;
+                    }
+                });
+
+                // Call optimize API
+                try {
+                    const res = await fetch('/api/optimize-resume', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ resume_text: resumeText })
+                    });
+                    const data = await res.json();
+                    if (data.optimized_resume) {
+                        const resultDiv = document.getElementById('optimizedResult');
+                        resultDiv.style.display = 'block';
+                        resultDiv.textContent = data.optimized_resume;
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                    } else if (data.error) {
+                        alert('Error: ' + data.error);
+                    }
+                } catch (err) {
+                    alert('Unexpected error: ' + err.message);
+                }
+            });
+        });
+        </script>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - Interview Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/language.js') }}"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        /* Language-specific display rules */
+        body[data-current-lang="en"] .zh-only {
+            display: none !important;
+        }
+        
+        body[data-current-lang="zh"] .en-only {
+            display: none !important;
+        }
+        
+        /* When no specific language class is present, both are shown */
+        
+        .top-nav {
+            width: 100%;
+            background-color: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+            margin: 0 auto;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+            display: none;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 4px;
+            font-weight: 400;
+            user-select: none;
+        }
+        
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        
+        .interview-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        
+        button {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #333333;
+        }
+        
+        .btn-primary {
+            background-color: #000000;
+        }
+        
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+        
+        .btn-secondary {
+            background-color: #444444;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #666666;
+        }
+        
+        .btn-success {
+            background-color: #333333;
+        }
+        
+        .btn-success:hover {
+            background-color: #555555;
+        }
+    </style>
+</head>
+<body data-current-lang="en">
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('community') }}" class="nav-item">Community</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item">Careers</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item">Exchange</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item">Gap Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item">Startup</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="page-container">
+        <h1 class="page-title">AI Interview Assistant</h1>
+        <p class="page-subtitle">Get professional interview feedback and improvement suggestions through AI-powered video interview analysis</p>
+        
+        <div class="interview-container">
+            <!-- Interview Setup -->
+            <div id="interview-setup" style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <h2 class="section-title">Interview Setup</h2>
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="candidate-name" style="display: block; margin-bottom: 8px; font-weight: 500;">Candidate Name:</label>
+                    <input type="text" id="candidate-name" placeholder="Please enter your name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="job-position" style="display: block; margin-bottom: 8px; font-weight: 500;">Target Position:</label>
+                    <input type="text" id="job-position" placeholder="Example: Frontend Developer" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="interview-type" style="display: block; margin-bottom: 8px; font-weight: 500;">Interview Type:</label>
+                    <select id="interview-type" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                        <option value="general">General Interview Questions</option>
+                        <option value="technical">Technical Interview Questions</option>
+                        <option value="behavioral">Behavioral Interview Questions</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="resume-file" style="display: block; margin-bottom: 8px; font-weight: 500;">Upload Resume (PDF):</label>
+                    <input type="file" id="resume-file" accept=".pdf" style="width: 100%; padding: 10px;">
+            </div>
+                <button id="upload-resume" class="btn btn-secondary" style="margin-bottom: 20px;">Upload Resume</button>
+            
+                <button id="start-interview" class="btn btn-success">Start Interview</button>
+            </div>
+            
+            <!-- Interview Recording -->
+            <div id="interview-recording" style="display: none; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <h2 class="section-title">Interview in Progress</h2>
+                
+                <div style="display: flex; gap: 30px; margin-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <div style="background: #f5f5f5; border-radius: 10px; overflow: hidden; position: relative;">
+                            <video id="user-video" autoplay muted playsinline style="width: 100%; height: auto;"></video>
+                            <div id="recording-indicator" style="position: absolute; top: 10px; right: 10px; background: rgba(255,0,0,0.7); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; display: none;">REC</div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 1;">
+                        <div style="background: #f5f5f5; border-radius: 10px; padding: 20px; height: 100%;">
+                            <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.2rem;">Current Question:</h3>
+                            <p id="current-question" style="font-size: 1.1rem; line-height: 1.5;">Please give a brief self-introduction, including your background and why you're interested in this position.</p>
+                            
+                            <!-- Timer -->
+                            <div style="margin-top: 20px; background: #e9e9e9; border-radius: 8px; padding: 12px; text-align: center;">
+                                <div id="timer-phase" style="font-weight: 600; margin-bottom: 5px; color: #333;">Thinking Time</div>
+                                <div id="timer-display" style="font-size: 2rem; font-weight: 700; color: #000;">01:00</div>
+                                <div id="timer-label" style="font-size: 0.9rem; color: #666; margin-top: 5px;">Thinking Time (1 minute)</div>
+                                <div id="phase-progress" style="height: 4px; background: #ccc; border-radius: 2px; margin-top: 10px; overflow: hidden;">
+                                    <div id="progress-bar" style="height: 100%; width: 100%; background: #000; transition: width 1s linear;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button id="start-recording" class="btn btn-success">Start Recording</button>
+                    <button id="stop-recording" class="btn btn-secondary" disabled>Stop Recording</button>
+                    <button id="next-question" class="btn">Next Question</button>
+                    <button id="finish-interview" class="btn btn-secondary">Finish Interview</button>
+                </div>
+            </div>
+            
+            <!-- Interview Results -->
+            <div id="interview-results" style="display: none; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <h2 class="section-title">Interview Analysis Results</h2>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px;">Score:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 600; color: #333333;" id="score-answer-quality">8</div>
+                            <div style="font-size: 0.9rem; color: #666;">Answer Quality</div>
+                        </div>
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 600; color: #333333;" id="score-clarity">7</div>
+                            <div style="font-size: 0.9rem; color: #666;">Language Expression</div>
+                        </div>
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 600; color: #333333;" id="score-knowledge">8</div>
+                            <div style="font-size: 0.9rem; color: #666;">Technical Knowledge</div>
+                        </div>
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 600; color: #333333;" id="score-confidence">7</div>
+                            <div style="font-size: 0.9rem; color: #666;">Confidence Level</div>
+                        </div>
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 600; color: #333333;" id="score-overall">7.5</div>
+                            <div style="font-size: 0.9rem; color: #666;">Overall Score</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px;">Feedback:</h3>
+                    <p id="feedback-text" style="background: #f9f9f9; padding: 20px; border-radius: 8px; line-height: 1.6;">Your answers are clear and professional, but you can be more confident.</p>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px;">Improvement Suggestions:</h3>
+                    <ul id="improvement-suggestions" style="background: #f9f9f9; padding: 20px; border-radius: 8px; line-height: 1.6;">
+                        <li>You can pause briefly before answering to organize your thoughts</li>
+                        <li>Add some specific work examples to support your points</li>
+                        <li>Maintain eye contact to show confidence</li>
+                    </ul>
+                </div>
+                
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button id="start-new-interview" class="btn">Start New Interview</button>
+                    <a href="/careers" class="btn" style="background-color: #000000; color: white; display: inline-block; text-decoration: none; text-align: center; border: none; padding: 10px 20px; border-radius: 4px; font-size: 1rem;">Back to Careers Page</a>
+                </div>
+            </div>
+            
+            <!-- Add API Settings Button -->
+            <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+                <button id="api-settings-btn" style="background: #000; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center;" title="API Settings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- API Settings Dialog -->
+            <div id="api-settings-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;">
+                <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                    <h2 style="margin-top: 0; margin-bottom: 20px; color: #000; font-size: 1.5rem; font-weight: 600;" data-i18n="api-settings-title">API Settings</h2>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label for="openai-api-key" style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;" data-i18n="openai-api-key-label">OpenAI API Key:</label>
+                        <input type="text" id="openai-api-key" placeholder="Enter your OpenAI API key" data-i18n-placeholder="openai-api-key-placeholder" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; transition: border-color 0.3s; background: #f9f9f9;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label for="ai-api-key" style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">AI API Key:</label>
+                        <input type="text" id="ai-api-key-input" placeholder="Enter your AI API Key" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; transition: border-color 0.3s; background: #f9f9f9;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 6px;">
+                        <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #555;">
+                            <span data-i18n="api-key-note">Your API keys are only temporarily stored in your browser and are not sent to our servers.</span>
+                        </p>
+                        <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #555;">
+                            <span data-i18n="api-key-required">You need your own OpenAI or Claude API key to use speech transcription and interview analysis features.</span>
+                        </p>
+                        <div style="margin-top: 10px;">
+                            <a href="https://platform.openai.com/account/api-keys" target="_blank" style="color: #000; text-decoration: none; display: block; margin-bottom: 5px; font-size: 0.9rem;" data-i18n="get-openai-key">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; margin-right: 5px;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                How to get an OpenAI API key?
+                            </a>
+                            <a href="https://console.anthropic.com/" target="_blank" style="color: #000; text-decoration: none; display: block; font-size: 0.9rem;" data-i18n="get-claude-key">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; margin-right: 5px;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                How to get a Claude API key?
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button id="api-settings-cancel" class="btn btn-secondary" data-i18n="cancel" style="background-color: #555;">Cancel</button>
+                        <button id="api-settings-save" class="btn" data-i18n="save-settings" style="background-color: #000;">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        // DOM elements
+            const interviewSetup = document.getElementById('interview-setup');
+            const interviewRecording = document.getElementById('interview-recording');
+            const interviewResults = document.getElementById('interview-results');
+            const startInterviewBtn = document.getElementById('start-interview');
+            const startRecordingBtn = document.getElementById('start-recording');
+            const stopRecordingBtn = document.getElementById('stop-recording');
+            const nextQuestionBtn = document.getElementById('next-question');
+            const finishInterviewBtn = document.getElementById('finish-interview');
+            const startNewInterviewBtn = document.getElementById('start-new-interview');
+            const recordingIndicator = document.getElementById('recording-indicator');
+            const userVideo = document.getElementById('user-video');
+            const currentQuestion = document.getElementById('current-question');
+            const candidateNameInput = document.getElementById('candidate-name');
+            const jobPositionInput = document.getElementById('job-position');
+            const interviewTypeSelect = document.getElementById('interview-type');
+            const timerDisplay = document.getElementById('timer-display');
+            const timerPhase = document.getElementById('timer-phase');
+            const timerLabel = document.getElementById('timer-label');
+            const progressBar = document.getElementById('progress-bar');
+            const resumeFile = document.getElementById('resume-file');
+            const uploadResumeBtn = document.getElementById('upload-resume');
+
+        // Interview questions (English only)
+            const interviewQuestions = {
+            general: [
+                        "Please give a brief self-introduction, including your background and why you're interested in this position.",
+                        "What do you consider your greatest strengths? How do these strengths help you succeed in this position?",
+                        "Can you describe the biggest career challenge you've faced and how you overcame it?",
+                        "Why did you leave your previous company? What expectations do you have for your new work environment?",
+                        "What are your career development plans for the next five years?"
+            ],
+            technical: [
+                        "Please describe the most complex technology or system you've used and how you mastered it.",
+                        "How do you typically solve technical problems? Please give a specific example.",
+                        "How do you keep your technical knowledge up-to-date? What learning resources or methods do you commonly use?",
+                        "Please describe a technical project you led or participated in, including your role and contributions.",
+                        "What steps would you take to resolve urgent technical issues or production incidents?"
+            ],
+            behavioral: [
+                        "Please describe an experience where you successfully led a team to complete a project. How did you manage the team?",
+                        "When you have disagreements with colleagues, how do you typically resolve them? Please give a specific example.",
+                        "Please share an experience where you learned an important lesson from failure.",
+                        "How do you handle high-pressure work environments and tight deadlines? Please provide an example.",
+                        "Describe a situation where you needed to persuade others to accept your ideas or proposals. What strategy did you use?"
+                    ]
+            };
+
+            let currentQuestionIndex = 0;
+            let currentQuestionType = 'general';
+            let timer;
+        let timerSeconds = 60;
+        let currentTimerPhase = 'thinking';
+        let originalTimerSeconds = 60;
+        let mediaRecorder;
+        let recordedChunks = [];
+        let audioStream;
+        let transcript = '';
+        let audioBlob;
+        let qaPairs = [];
+        let resumeText = ""; // 用于后续生成问题
+
+        // Text to speech function using Google Cloud Text-to-Speech API (English only)
+        function speakText(text) {
+            const GOOGLE_TTS_API_KEY = "AIzaSyDl3hjGk2CqTq0-ErodwLNAzhqDNH0QU4M";
+            
+            // Create the request body
+            const requestBody = {
+                input: { text: text },
+                voice: {
+                    languageCode: "en-US",
+                    name: "en-US-Neural2-D",
+                    ssmlGender: "MALE"
+                },
+                audioConfig: {
+                    audioEncoding: "MP3",
+                    speakingRate: 1.0,
+                    pitch: 0
+                }
+            };
+
+            // Make the API request
+            fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${GOOGLE_TTS_API_KEY}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.audioContent) {
+                    // Convert base64 to audio
+                    const audioContent = data.audioContent;
+                    const audioBlob = new Blob(
+                        [Uint8Array.from(atob(audioContent), c => c.charCodeAt(0))],
+                        { type: 'audio/mp3' }
+                    );
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    
+                    // Play the audio
+                    audio.oncanplaythrough = () => {
+                        audio.play().catch(error => {
+                            console.error("Error playing audio:", error);
+                        });
+                    };
+                    
+                    // Clean up the URL after playing
+                    audio.onended = () => {
+                        URL.revokeObjectURL(audioUrl);
+                    };
+                } else {
+                    console.error("No audio content received from Google TTS API");
+                }
+            })
+            .catch(error => {
+                console.error("Error with Google TTS API:", error);
+                alert("Error generating speech. Please check the console for details.");
+            });
+        }
+
+        // Start Interview
+            startInterviewBtn.addEventListener('click', () => {
+            let questions = JSON.parse(localStorage.getItem('interviewQuestions') || '[]');
+            console.log('读取localStorage:', questions); // 调试
+            if (questions.length === 0) {
+                // 没有简历生成的问题，使用默认题库
+                const interviewType = interviewTypeSelect.value;
+                questions = interviewQuestions[interviewType] || interviewQuestions['general'];
+                alert('No resume uploaded. Using default interview questions.');
+            }
+            const candidateName = candidateNameInput.value.trim() || 'Unspecified Name';
+            const jobPosition = jobPositionInput.value.trim() || 'Unspecified Position';
+                currentQuestionType = interviewTypeSelect.value;
+                qaPairs = [];
+                interviewSetup.style.display = 'none';
+                interviewRecording.style.display = 'block';
+                currentQuestionIndex = 0;
+            currentQuestion.textContent = questions[currentQuestionIndex];
+                initCamera();
+                currentTimerPhase = 'thinking';
+                startTimer();
+                setTimeout(() => {
+                speakText(currentQuestion.textContent);
+                }, 500);
+            localStorage.setItem('currentQuestions', JSON.stringify(questions));
+            });
+
+        // Camera and mic
+            async function initCamera() {
+                try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                userVideo.srcObject = stream;
+                userVideo.muted = false;
+                userVideo.play().catch(e => console.error('Video play error:', e));
+                audioStream = stream;
+                    } catch (err) {
+                alert('Could not access camera and microphone. Please check your device permissions.');
+            }
+        }
+
+        // Timer logic
+        function startTimer() {
+            if (currentTimerPhase === 'thinking') {
+                timerSeconds = 60;
+                originalTimerSeconds = 60;
+                timerPhase.textContent = 'Thinking Time';
+                timerLabel.textContent = 'Thinking Time (1 minute)';
+            } else {
+                timerSeconds = 180;
+                originalTimerSeconds = 180;
+                timerPhase.textContent = 'Answering Time';
+                timerLabel.textContent = 'Answering Time (3 minutes)';
+            }
+            updateTimerDisplay();
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+                timerSeconds--;
+                const progressPercent = (timerSeconds / originalTimerSeconds) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+                updateTimerDisplay();
+                if (timerSeconds <= 0) {
+                    clearInterval(timer);
+                    if (currentTimerPhase === 'thinking') {
+                        currentTimerPhase = 'answering';
+                        startTimer();
+                        if (!startRecordingBtn.disabled) {
+                            startRecordingBtn.click();
+                        }
+                    } else {
+                        if (stopRecordingBtn.disabled === false) {
+                            stopRecordingBtn.click();
+                        }
+                setTimeout(() => {
+                            nextQuestionBtn.click();
+                        }, 1000);
+                    }
+                }
+            }, 1000);
+        }
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            if (timerSeconds <= 10) {
+                timerDisplay.style.color = '#c00';
+                progressBar.style.backgroundColor = '#c00';
+                } else {
+                timerDisplay.style.color = '#000';
+                progressBar.style.backgroundColor = '#000';
+            }
+        }
+
+        // Recording logic
+            startRecordingBtn.addEventListener('click', () => {
+                if (audioStream) {
+                    recordedChunks = [];
+                let options = { mimeType: 'audio/webm' };
+                    try {
+                        mediaRecorder = new MediaRecorder(audioStream, options);
+                    } catch (e) {
+                                mediaRecorder = new MediaRecorder(audioStream);
+                }
+                    mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) recordedChunks.push(e.data);
+                    };
+                    mediaRecorder.onstop = processAudio;
+                        mediaRecorder.start();
+                        recordingIndicator.style.display = 'block';
+                recordingIndicator.innerHTML = 'REC';
+                        startRecordingBtn.disabled = true;
+                        stopRecordingBtn.disabled = false;
+            }
+        });
+            stopRecordingBtn.addEventListener('click', () => {
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                    recordingIndicator.style.display = 'none';
+                    startRecordingBtn.disabled = false;
+                    stopRecordingBtn.disabled = true;
+                }
+            });
+
+        // Next Question
+            nextQuestionBtn.addEventListener('click', () => {
+                let questions = JSON.parse(localStorage.getItem('currentQuestions') || '[]');
+                currentQuestionIndex++;
+                if (currentQuestionIndex >= questions.length) {
+                    currentQuestionIndex = 0;
+                }
+                currentQuestion.textContent = questions[currentQuestionIndex];
+                currentTimerPhase = 'thinking';
+                if (timer) clearInterval(timer);
+                startTimer();
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    stopRecordingBtn.click();
+                }
+                speakText(currentQuestion.textContent);
+            });
+
+        // Finish Interview
+            finishInterviewBtn.addEventListener('click', () => {
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                }
+                if (userVideo.srcObject) {
+                    userVideo.srcObject.getTracks().forEach(track => track.stop());
+                }
+                interviewRecording.style.display = 'none';
+                interviewResults.style.display = 'block';
+        });
+
+        // Start New Interview
+            startNewInterviewBtn.addEventListener('click', () => {
+                recordedChunks = [];
+                transcript = '';
+                currentQuestionIndex = 0;
+                interviewResults.style.display = 'none';
+                interviewSetup.style.display = 'block';
+            });
+            
+        // Process Audio (stub, you can add your API logic here)
+        function processAudio() {
+            audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+            // You can add your API call here to transcribe or analyze the audio
+            }
+        });
+
+        uploadResumeBtn.addEventListener('click', async function() {
+            if (resumeFile.files.length === 0) {
+                alert('Please upload your resume PDF.');
+                        return;
+                    }
+            const formData = new FormData();
+            formData.append('resume', resumeFile.files[0]);
+            formData.append('job_position', jobPositionInput.value);
+            formData.append('interview_type', interviewTypeSelect.value);
+
+            // 上传简历并生成问题
+            const resp = await fetch('/api/upload-resume', { method: 'POST', body: formData });
+            if (resp.ok) {
+                const data = await resp.json();
+                console.log('API返回：', data); // 调试
+                if (data.questions && data.questions.length > 0) {
+                    localStorage.setItem('interviewQuestions', JSON.stringify(data.questions));
+                    console.log('写入localStorage:', data.questions); // 调试
+                    alert('Resume uploaded and questions generated! You can now start the interview.');
+                    } else {
+                    alert('Failed to generate questions. Please check your resume and try again.');
+                }
+                    } else {
+                alert('Failed to upload resume. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html> 

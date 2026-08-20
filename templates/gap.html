@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - GAP Year</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .top-nav {
+            width: 100%;
+            background-color: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+            margin: 0 auto;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+            display: none;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 4px;
+            font-weight: 400;
+            user-select: none;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/random/1600x900/?adventure,travel');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #333333;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn:hover {
+            background-color: #555555;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        .about-gap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .about-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #444;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+        }
+        
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .benefits {
+            background-color: #fff;
+            padding: 80px 0;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #0066cc;
+        }
+        
+        .benefit-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .benefit-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #666;
+        }
+        
+        .quote-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://source.unsplash.com/random/1600x900/?mountains');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .quote {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .quote-author {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .stories {
+            padding: 80px 0;
+        }
+        
+        .story-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .story-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .story-image {
+            height: 220px;
+            overflow: hidden;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .story-card:hover .story-image img {
+            transform: scale(1.05);
+        }
+        
+        .story-content {
+            padding: 25px;
+        }
+        
+        .story-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .story-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .story-location {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .story-date {
+            display: flex;
+            align-items: center;
+        }
+        
+        .story-excerpt {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .read-more {
+            font-size: 0.9rem;
+            color: #0066cc;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        
+        .cta-section {
+            background-color: #333333;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-text {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            line-height: 1.5;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: #0066cc;
+            font-weight: 600;
+        }
+        
+        .btn-white:hover {
+            background-color: #f0f0f0;
+        }
+        
+        @media (max-width: 768px) {
+            .about-gap {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .quote {
+                font-size: 1.4rem;
+            }
+            
+            .program-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .program-image {
+                height: 200px;
+            }
+            
+            .program-detail {
+                font-size: 0.8rem;
+                padding: 5px 10px;
+            }
+        }
+        
+        .international-programs {
+            background-color: #f9f9f9;
+            padding: 80px 0;
+        }
+        
+        .programs-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .program-image {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .program-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .program-card:hover .program-image img {
+            transform: scale(1.05);
+        }
+        
+        .program-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .program-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .program-location {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #0066cc;
+            font-weight: 500;
+        }
+        
+        .program-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .program-detail {
+            background: #f5f5f5;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .program-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .program-card .btn {
+            align-self: flex-start;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 900px) {
+            .program-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .program-image {
+                height: 200px;
+            }
+        }
+        
+        .country-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .country-filter {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .country-filter:hover, .country-filter.active {
+            background: #0066cc;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('index') }}" class="nav-item">Home</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('intro') }}" class="nav-item">About Us</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('community') }}" class="nav-item">Community</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item">Careers</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item">Exchange</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item active">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item">Startup Center</a>
+            </div>
+            <div class="nav-right">
+                <!-- Language toggle button is hidden -->
+            </div>
+        </div>
+    </nav>
+    
+    <section class="hero-section">
+        <h1 class="hero-title">Explore Your GAP Year</h1>
+        <p class="hero-subtitle">
+            Slow down, step out of your comfort zone, explore the world, discover yourself, and gain valuable experience for your future academic and career path.
+        </p>
+        <a href="#about" class="btn">
+            Learn More
+        </a>
+    </section>
+    
+    <section id="about" class="container">
+        <h2 class="section-title">
+            What is a GAP Year?
+        </h2>
+        
+        <div class="about-gap">
+            <div class="about-text">
+                <p>
+                    A GAP Year refers to a period when students voluntarily pause their regular studies after high school graduation, before college enrollment, or during college before graduate school, using about a year to experience different lifestyles and challenges.
+                </p>
+                <p>
+                    This "gap" time can be used for traveling, volunteering, interning, learning new skills, exploring career interests, or simply taking time to reflect on future directions. A GAP Year is not wasting time, but a meaningful pause that helps young people better understand themselves and the world before entering the next stage of education or work.
+                </p>
+                <p>
+                    Whether you want to explore your interests, gain practical experience in a specific field, or just need time to reflect and grow, a GAP Year provides a valuable opportunity to go beyond the boundaries of traditional education and gain real-world experience.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="https://source.unsplash.com/random/600x400/?adventure,gap" alt="GAP Year 体验">
+            </div>
+        </div>
+    </section>
+    
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">
+                Benefits of a GAP Year
+            </h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <h3 class="benefit-title">
+                        Self-Discovery
+                    </h3>
+                    <p class="benefit-desc">
+                        Step away from routine environments to have more time and space to think about life direction, understand your interests, values, and goals.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌍</div>
+                    <h3 class="benefit-title">
+                        Cultural Experience
+                    </h3>
+                    <p class="benefit-desc">
+                        Immerse yourself in different cultural environments, broaden your horizons, and develop global awareness and cross-cultural communication skills.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">💼</div>
+                    <h3 class="benefit-title">
+                        Practical Skills
+                    </h3>
+                    <p class="benefit-desc">
+                        Gain practical skills and work experience through internships, jobs, or volunteer service, enhancing future employability.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧠</div>
+                    <h3 class="benefit-title">
+                        Learning Motivation
+                    </h3>
+                    <p class="benefit-desc">
+                        Temporarily leaving the academic environment allows reflection on learning purposes, often returning to school with clearer goals and stronger motivation.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤝</div>
+                    <h3 class="benefit-title">
+                        Networking
+                    </h3>
+                    <p class="benefit-desc">
+                        Make friends and connect with professionals from around the world, building valuable personal networks.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌱</div>
+                    <h3 class="benefit-title">
+                        Personal Growth
+                    </h3>
+                    <p class="benefit-desc">
+                        Face challenges independently, developing problem-solving abilities, adaptability, and resilience, promoting emotional and psychological maturity.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="international-programs">
+        <div class="container">
+            <h2 class="section-title">International GAP Year Programs</h2>
+            
+            <div class="country-filters">
+                <button class="country-filter active" data-filter="all">All</button>
+                <button class="country-filter" data-filter="north-america">North America</button>
+                <button class="country-filter" data-filter="europe">Europe</button>
+                <button class="country-filter" data-filter="asia">Asia</button>
+                <button class="country-filter" data-filter="oceania">Oceania</button>
+                <button class="country-filter" data-filter="africa">Africa</button>
+                <button class="country-filter" data-filter="south-america">South America</button>
+                <button class="country-filter" data-filter="international">International Organizations</button>
+            </div>
+            
+            <div class="programs-grid">
+                <div class="program-card" data-country="north-america">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?usa,family" alt="US Au Pair Program">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            US Au Pair Program
+                        </h3>
+                        <div class="program-location">
+                            📍 United States
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Age Requirement:
+                                </span> 
+                                18-26 years old
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Duration:
+                                </span> 
+                                12 months (extendable to 24 months)
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Stipend:
+                                </span> 
+                                At least $195.75 per week
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            The Au Pair program allows you to live with an American family, taking care of their children while experiencing American culture. The program includes an education stipend for studying at local colleges, and free time to explore the United States.
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">Consult AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="north-america">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?usa,summer" alt="US Summer Work and Travel Program (SWT)">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            US Summer Work and Travel Program (SWT)
+                        </h3>
+                        <div class="program-location">
+                            📍 United States
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Requirements:
+                                </span> 
+                                University students
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Duration:
+                                </span> 
+                                Up to 4 months
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Work Type:
+                                </span> 
+                                Seasonal jobs
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            The SWT program allows international university students to spend summer in the US, earning income through temporary jobs while experiencing American culture and lifestyle. Common jobs include resorts, restaurants, theme parks, and other seasonal positions.
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">Consult AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="oceania">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?australia,beach" alt="Australia/New Zealand Working Holiday Visa">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            Australia/New Zealand Working Holiday Visa
+                        </h3>
+                        <div class="program-location">
+                            📍 Australia / New Zealand
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Age Requirement:
+                                </span> 
+                                18-30 years old (18-35 for some countries)
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Duration:
+                                </span> 
+                                12 months (extendable to 2-3 years)
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Financial Requirement:
+                                </span> 
+                                Approximately 5,000 AUD
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            Working Holiday visas allow young people to travel and work in Australia or New Zealand for up to 12 months, experiencing the local lifestyle. By working in specific regional areas, you can apply for a second or even third-year visa extension.
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">Consult AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="europe">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?nordic,snow" alt="北欧季节工作">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            Nordic Seasonal Work
+                        </h3>
+                        <div class="program-location">
+                            📍 Sweden / Finland / Norway
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Age Requirement:
+                                </span> 
+                                18-30 years old
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Language Requirement:
+                                </span> 
+                                Basic Scandinavian language or English
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    Work Type:
+                                </span> 
+                                Seasonal work, including agriculture and tourism
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            Nordic countries offer various seasonal work opportunities, including summer agriculture, winter ski resorts, and tourism jobs. The Nordjobb program provides seasonal work opportunities in Nordic countries for young people aged 18-30, including accommodation and cultural activities.
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">Consult AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="europe">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?ireland,school" alt="爱尔兰语言生签证">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">爱尔兰语言学习签证</span>
+                            <span class="en-content">Ireland Language Learning Visa</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">爱尔兰</span>
+                            <span class="en-content">Ireland</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">最长8个月</span>
+                                <span class="en-content">Up to 8 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">学习要求:</span>
+                                    <span class="en-content">Study Requirements:</span>
+                                </span> 
+                                <span class="zh-content">每周至少15小时课程</span>
+                                <span class="en-content">At least 15 hours of classes per week</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">工作权利:</span>
+                                    <span class="en-content">Work Rights:</span>
+                                </span> 
+                                <span class="zh-content">学期期间每周20小时，假期每周40小时</span>
+                                <span class="en-content">20 hours per week during term, 40 hours during holidays</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">爱尔兰语言学习签证允许国际学生在学习英语的同时体验爱尔兰文化，并可以合法打工赚取生活费。爱尔兰的假期工作期间为6月至9月和12月15日至1月15日。</span>
+                            <span class="en-content">The Irish language learning visa allows international students to experience Irish culture while studying English and legally work to earn living expenses. Holiday work periods in Ireland are from June to September and December 15 to January 15.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="europe">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?france,paris" alt="法国语言助教项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">法国语言助教项目</span>
+                            <span class="en-content">French Language Teaching Assistant Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">法国</span><span class="en-content">France</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">大学在读或毕业生</span>
+                                <span class="en-content">University students or graduates</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">7-9个月(学年)</span>
+                                <span class="en-content">7-9 months (academic year)</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">工作:</span>
+                                    <span class="en-content">Work:</span>
+                                </span> 
+                                <span class="zh-content">小学至高中英语助教</span>
+                                <span class="en-content">English teaching assistant in primary to high schools</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">法国教育部提供的语言助教项目让外国青年在法国学校担任英语助教，每周工作12小时，获得月薪和医疗保险。这是一个提高法语能力、体验法国教育系统和文化的理想机会。</span>
+                            <span class="en-content">The language assistant program offered by the French Ministry of Education allows young foreigners to work as English teaching assistants in French schools, working 12 hours per week with a monthly salary and health insurance. This is an ideal opportunity to improve your French language skills and experience the French education system and culture.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="south-america">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?argentina,tango" alt="阿根廷志愿者项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">阿根廷社区发展志愿者</span>
+                            <span class="en-content">Argentina Community Development Volunteer</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">阿根廷</span>
+                            <span class="en-content">Argentina</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上</span>
+                                <span class="en-content">18 years and above</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">2周至6个月</span>
+                                <span class="en-content">2 weeks to 6 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">工作内容:</span>
+                                    <span class="en-content">Work Content:</span>
+                                </span> 
+                                <span class="zh-content">社区发展、教育、环保</span>
+                                <span class="en-content">Community development, education, environmental protection</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">在阿根廷参与社区发展项目，包括布宜诺斯艾利斯的贫困社区服务、巴塔哥尼亚的环保项目、门多萨的教育支持等。志愿者能沉浸在拉丁美洲文化中，学习西班牙语，同时为当地社区做出贡献。</span>
+                            <span class="en-content">Participate in community development projects in Argentina, including services in impoverished communities in Buenos Aires, environmental projects in Patagonia, and educational support in Mendoza. Volunteers can immerse themselves in Latin American culture, learn Spanish, and contribute to local communities.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="south-america">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?brazil,rainforest" alt="巴西亚马逊保护项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">巴西亚马逊雨林保护项目</span>
+                            <span class="en-content">Brazil Amazon Rainforest Conservation Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">巴西亚马逊地区</span>
+                            <span class="en-content">Brazilian Amazon Region</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上，体力良好</span>
+                                <span class="en-content">18 years and above, good physical condition</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">2周至3个月</span>
+                                <span class="en-content">2 weeks to 3 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">工作内容:</span>
+                                    <span class="en-content">Work Content:</span>
+                                </span> 
+                                <span class="zh-content">雨林保护、植树、研究</span>
+                                <span class="en-content">Rainforest conservation, tree planting, research</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">参与亚马逊雨林保护工作，包括植树造林、野生动植物监测、与当地社区合作的可持续发展项目等。志愿者将在世界最大的热带雨林中工作，了解生物多样性保护的重要性，并体验巴西独特文化。</span>
+                            <span class="en-content">Participate in Amazon rainforest conservation work, including reforestation, wildlife monitoring, and sustainable development projects in cooperation with local communities. Volunteers will work in the world's largest tropical rainforest, learn about the importance of biodiversity conservation, and experience Brazil's unique culture.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?india,culture" alt="印度社会企业实习">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">印度社会企业实习项目</span>
+                            <span class="en-content">India Social Enterprise Internship Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">印度（孟买、班加罗尔、德里等）</span>
+                            <span class="en-content">India (Mumbai, Bangalore, Delhi, etc.)</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">大学在读或毕业生</span>
+                                <span class="en-content">Current university students or graduates</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">1-6个月</span>
+                                <span class="en-content">1-6 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">领域:</span>
+                                    <span class="en-content">Field:</span>
+                                </span> 
+                                <span class="zh-content">社会企业、创业、可持续发展</span>
+                                <span class="en-content">Social enterprise, entrepreneurship, sustainable development</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">在印度新兴的社会企业实习，参与解决贫困、教育、医疗等社会问题的创新项目。实习生将获得宝贵的跨文化工作经验，了解印度复杂的社会经济状况，同时为可持续发展和社会变革做出贡献。</span>
+                            <span class="en-content">Intern at emerging social enterprises in India and participate in innovative projects addressing social issues such as poverty, education, and healthcare. Interns gain valuable cross-cultural work experience, understand India's complex socioeconomic conditions, while contributing to sustainable development and social change.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?vietnam,rice" alt="越南教育志愿者">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">越南英语教育志愿者</span>
+                            <span class="en-content">Vietnam English Education Volunteer</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">越南（河内、胡志明市、农村地区）</span>
+                            <span class="en-content">Vietnam (Hanoi, Ho Chi Minh City, rural areas)</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">英语母语或流利</span>
+                                <span class="en-content">Native or fluent English speaker</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">1-6个月</span>
+                                <span class="en-content">1-6 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">工作内容:</span>
+                                    <span class="en-content">Work Content:</span>
+                                </span> 
+                                <span class="zh-content">英语教学、课外活动组织</span>
+                                <span class="en-content">English teaching, organizing extracurricular activities</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">在越南学校或社区中心教授英语，帮助当地学生提升英语沟通能力。志愿者将深入体验越南文化，探索从繁华都市到宁静乡村的多样风景，同时为越南教育发展做出贡献。</span>
+                            <span class="en-content">Teach English in Vietnamese schools or community centers, helping local students improve their English communication skills. Volunteers will deeply experience Vietnamese culture, explore diverse landscapes from bustling cities to peaceful countryside, while contributing to Vietnam's educational development.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?morocco,desert" alt="摩洛哥文化交流">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">摩洛哥文化交流项目</span>
+                            <span class="en-content">Morocco Cultural Exchange Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">摩洛哥（马拉喀什、非斯、撒哈拉沙漠）</span>
+                            <span class="en-content">Morocco (Marrakesh, Fes, Sahara Desert)</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上，开放心态</span>
+                                <span class="en-content">18 years and above, open mindset</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">2周至3个月</span>
+                                <span class="en-content">2 weeks to 3 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">活动:</span>
+                                    <span class="en-content">Activities:</span>
+                                </span> 
+                                <span class="zh-content">语言交流、文化体验、社区服务</span>
+                                <span class="en-content">Language exchange, cultural experience, community service</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">参与摩洛哥文化浸入式体验，包括阿拉伯语或柏柏尔语学习、传统工艺学习、社区服务和沙漠探险等。志愿者将住在当地家庭，深入了解这个北非国家丰富的历史文化和多元宗教传统。</span>
+                            <span class="en-content">Participate in an immersive Moroccan cultural experience, including Arabic or Berber language learning, traditional crafts, community service, and desert adventures. Volunteers will stay with local families, gaining deep insights into this North African country's rich history, culture and diverse religious traditions.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="international">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?peace,corps" alt="美国和平队志愿者">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">美国和平队志愿者计划</span>
+                            <span class="en-content">US Peace Corps Volunteer Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">非洲、亚洲、拉丁美洲等60多个国家</span>
+                            <span class="en-content">Over 60 countries in Africa, Asia, Latin America, etc.</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">美国公民，18岁以上</span>
+                                <span class="en-content">US Citizens, 18+ years old</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">2年（含3个月培训）</span>
+                                <span class="en-content">2 years (including 3 months training)</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">领域:</span>
+                                    <span class="en-content">Fields:</span>
+                                </span> 
+                                <span class="zh-content">教育、健康、环境、农业、社区发展</span>
+                                <span class="en-content">Education, Health, Environment, Agriculture, Community Development</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">美国和平队是美国政府运行的志愿者计划，派遣志愿者到发展中国家工作。志愿者将在当地社区生活和工作，参与教育、健康、环境保护、农业发展等项目，促进文化交流和国际友谊，同时获得终身难忘的跨文化经历。</span>
+                            <span class="en-content">The US Peace Corps is a volunteer program run by the US government that sends volunteers to work in developing countries. Volunteers live and work in local communities, participating in education, health, environmental protection, agricultural development, and other projects, promoting cultural exchange and international friendship, while gaining a life-changing cross-cultural experience.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?red,cross" alt="红十字会国际委员会">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">红十字会国际委员会(ICRC)实习项目</span>
+                            <span class="en-content">International Committee of the Red Cross Internship</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">日内瓦总部或全球办事处</span>
+                            <span class="en-content">Geneva Headquarters or Global Offices</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">大学毕业生，流利英语和法语</span>
+                                <span class="en-content">University graduates, fluent in English and French</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">6-12个月</span>
+                                <span class="en-content">6-12 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">领域:</span>
+                                    <span class="en-content">Fields:</span>
+                                </span> 
+                                <span class="zh-content">人道主义援助、国际法、公共卫生</span>
+                                <span class="en-content">Humanitarian Aid, International Law, Public Health</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">红十字会国际委员会实习为年轻专业人士提供在世界最大人道主义组织工作的机会。实习生将参与冲突地区人道主义援助工作，包括保护平民、寻找失踪人员、促进国际人道法等领域，为全球最脆弱人群提供帮助。</span>
+                            <span class="en-content">The ICRC internship offers young professionals the opportunity to work with the world's largest humanitarian organization. Interns participate in humanitarian aid work in conflict zones, including protecting civilians, tracing missing persons, promoting international humanitarian law, and providing assistance to the world's most vulnerable populations.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?asia,bank" alt="亚洲开发银行实习">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">亚洲开发银行(ADB)实习计划</span>
+                            <span class="en-content">Asian Development Bank Internship Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">菲律宾马尼拉总部或地区办事处</span>
+                            <span class="en-content">Manila Headquarters or Regional Offices</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">研究生在读或毕业生，亚太地区国家国民</span>
+                                <span class="en-content">Graduate students or recent graduates, nationals of Asia-Pacific countries</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">8-12周</span>
+                                <span class="en-content">8-12 weeks</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">领域:</span>
+                                    <span class="en-content">Fields:</span>
+                                </span> 
+                                <span class="zh-content">经济、金融、可持续发展</span>
+                                <span class="en-content">Economics, Finance, Sustainable Development</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">亚洲开发银行实习计划为亚太地区年轻专业人士提供在国际金融机构工作的机会。实习生将参与区域发展项目，了解国际开发金融运作，在减少贫困和促进包容性经济增长的项目中获得实践经验。</span>
+                            <span class="en-content">The ADB Internship Program provides young professionals from the Asia-Pacific region the opportunity to work in an international financial institution. Interns participate in regional development projects, learn about international development finance operations, and gain practical experience in projects aimed at reducing poverty and promoting inclusive economic growth.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?japan,temple" alt="日本JET项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">日本JET计划(英语教师项目)</span>
+                            <span class="en-content">Japan Exchange and Teaching (JET) Programme</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">日本</span>
+                            <span class="en-content">Japan</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">大学学位，英语母语国家国民</span>
+                                <span class="en-content">University degree, native English speaker</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">1年(可续约至5年)</span>
+                                <span class="en-content">1 year (renewable up to 5 years)</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">薪资:</span>
+                                    <span class="en-content">Salary:</span>
+                                </span> 
+                                <span class="zh-content">每年约300-350万日元</span>
+                                <span class="en-content">Approx. 3-3.5 million yen per year</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">JET计划是日本政府主办的国际交流项目，招募外国青年在日本中小学担任外语助教(ALT)。参与者将在日本生活和工作，体验日本文化，同时向日本学生教授英语和文化知识，促进跨文化交流。</span>
+                            <span class="en-content">The JET Programme is an international exchange program managed by the Japanese government that recruits young foreign nationals to serve as Assistant Language Teachers (ALTs) in Japanese schools. Participants live and work in Japan, experience Japanese culture, and teach English while promoting cross-cultural understanding.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?korea,seoul" alt="韩国EPIK项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">韩国EPIK计划(英语教学项目)</span>
+                            <span class="en-content">English Program in Korea (EPIK)</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">韩国</span>
+                            <span class="en-content">South Korea</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">大学学位，TEFL/TESOL证书</span>
+                                <span class="en-content">University degree, TEFL/TESOL certificate</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">1年(可续约)</span>
+                                <span class="en-content">1 year (renewable)</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">福利:</span>
+                                    <span class="en-content">Benefits:</span>
+                                </span> 
+                                <span class="zh-content">免费住宿，往返机票，医疗保险</span>
+                                <span class="en-content">Free housing, round-trip airfare, medical insurance</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">EPIK是韩国教育部主办的英语教学项目，招募外国教师在韩国公立学校教授英语。该项目提供具有竞争力的薪资和福利，包括免费住宿、往返机票和医疗保险等。这是体验韩国文化、提升教学技能、积累国际工作经验的绝佳机会。</span>
+                            <span class="en-content">EPIK is an English teaching program sponsored by Korea's Ministry of Education that recruits foreign teachers to teach English in Korean public schools. The program offers competitive salaries and benefits, including free housing, round-trip airfare, and medical insurance. This is an excellent opportunity to experience Korean culture, enhance teaching skills, and gain international work experience.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="north-america">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?canada,mountains" alt="加拿大打工度假">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">加拿大国际经验类别(IEC)计划</span>
+                            <span class="en-content">Canada International Experience Class (IEC) Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">加拿大</span>
+                            <span class="en-content">Canada</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">年龄要求:</span>
+                                    <span class="en-content">Age Requirement:</span>
+                                </span> 
+                                <span class="zh-content">18-35岁</span>
+                                <span class="en-content">18-35 years old</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">最长12个月</span>
+                                <span class="en-content">Up to 12 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">类别:</span>
+                                    <span class="en-content">Categories:</span>
+                                </span> 
+                                <span class="zh-content">打工度假、国际实习</span>
+                                <span class="en-content">Working Holiday, International Co-op/Internship</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">加拿大国际经验类别(IEC)计划允许年轻人获得临时工作许可，在加拿大生活和工作长达12个月。该计划包括打工度假、国际实习和青年专业人士交流三个子类别，让参与者在壮丽的自然风光中体验加拿大多元文化，同时获得宝贵的国际工作经验。</span>
+                            <span class="en-content">The International Experience Canada (IEC) program allows young people to obtain temporary work permits to live and work in Canada for up to 12 months. The program includes three streams: Working Holiday, International Co-op/Internship, and Young Professionals. It offers participants the opportunity to experience Canada's diverse culture and magnificent natural landscapes while gaining valuable international work experience.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="international">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?cruise,ship" alt="国际游轮工作">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">国际游轮工作项目</span>
+                            <span class="en-content">International Cruise Ship Work Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">全球各大邮轮航线</span>
+                            <span class="en-content">Global Cruise Routes</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上，英语流利</span>
+                                <span class="en-content">18+ years old, fluent English</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">合同期:</span>
+                                    <span class="en-content">Contract Period:</span>
+                                </span> 
+                                <span class="zh-content">4-9个月</span>
+                                <span class="en-content">4-9 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">职位:</span>
+                                    <span class="en-content">Positions:</span>
+                                </span> 
+                                <span class="zh-content">娱乐人员、服务员、前台等</span>
+                                <span class="en-content">Entertainment staff, waiters, reception, etc.</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">在国际豪华邮轮上工作是体验世界各地文化和赚取收入的独特方式。员工在合同期间获得免费食宿、医疗保险和旅行机会，同时能结识来自全球各地的同事和游客。常见职位包括娱乐表演人员、餐厅服务员、客房服务、零售销售和前台接待等。</span>
+                            <span class="en-content">Working on international luxury cruise ships offers a unique way to experience cultures around the world while earning income. Employees receive free accommodation and meals, medical insurance, and travel opportunities during their contract period, while meeting colleagues and guests from around the globe. Common positions include entertainment staff, restaurant servers, housekeeping, retail sales, and front desk reception.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?taiwan,temple" alt="台湾英语教学">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">台湾英语教学项目</span>
+                            <span class="en-content">Taiwan English Teaching Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">台湾</span>
+                            <span class="en-content">Taiwan</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">大学学位，英语母语者优先</span>
+                                <span class="en-content">University degree, native English speakers preferred</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">6-12个月</span>
+                                <span class="en-content">6-12 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">薪资:</span>
+                                    <span class="en-content">Salary:</span>
+                                </span> 
+                                <span class="zh-content">每月约NT$60,000-70,000</span>
+                                <span class="en-content">Approx. NT$60,000-70,000 per month</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">台湾的英语教学项目为外国人提供在私立补习班(补习班)或公立学校教授英语的机会。台湾以其友好的人民、丰富的文化历史和美食而闻名，是体验中华文化的理想地点。教师可以在工作之余探索宝岛的美丽自然风光，从繁华都市到宁静山区和海岸线。</span>
+                            <span class="en-content">English teaching programs in Taiwan offer foreigners the opportunity to teach English in private language schools (buxiban) or public schools. Taiwan is known for its friendly people, rich cultural history, and delicious cuisine, making it an ideal place to experience Chinese culture. Teachers can explore the island's beautiful natural scenery in their free time, from bustling cities to peaceful mountains and coastlines.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="europe">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?finland,ski" alt="芬兰滑雪场和度假村工作">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">芬兰拉普兰冬季度假村工作项目</span>
+                            <span class="en-content">Finnish Lapland Winter Resort Work Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">芬兰拉普兰地区</span>
+                            <span class="en-content">Lapland, Finland</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上，英语流利</span>
+                                <span class="en-content">18+ years old, fluent English</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">季节:</span>
+                                    <span class="en-content">Season:</span>
+                                </span> 
+                                <span class="zh-content">11月至4月</span>
+                                <span class="en-content">November to April</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">工作类型:</span>
+                                    <span class="en-content">Work Type:</span>
+                                </span> 
+                                <span class="zh-content">滑雪教练，餐厅服务，接待员等</span>
+                                <span class="en-content">Ski instructor, restaurant service, receptionist, etc.</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">芬兰拉普兰是一个冬季仙境，每年吸引着大量游客。这个季节性工作项目让你在北极圈内的滑雪中心和度假村工作，体验北极光、圣诞老人村和驯鹿雪橇等独特文化。工作期间提供住宿和一定的薪资，是体验芬兰冬季文化和提高职业技能的理想选择。</span>
+                            <span class="en-content">Finnish Lapland is a winter wonderland that attracts numerous tourists each year. This seasonal work program allows you to work in ski resorts within the Arctic Circle, experiencing northern lights, Santa Claus Village, and reindeer sledding. Accommodation and competitive wages are provided during employment, making it an ideal choice for experiencing Finnish winter culture and enhancing professional skills.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="africa">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?kenya,wildlife" alt="肯尼亚野生动物保护项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">肯尼亚野生动物保护志愿者项目</span>
+                            <span class="en-content">Kenya Wildlife Conservation Volunteer Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">肯尼亚（马赛马拉、安博塞利等）</span>
+                            <span class="en-content">Kenya (Maasai Mara, Amboseli, etc.)</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上，热爱自然与野生动物</span>
+                                <span class="en-content">18+ years old, passion for nature and wildlife</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">2周至3个月</span>
+                                <span class="en-content">2 weeks to 3 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">工作内容:</span>
+                                    <span class="en-content">Work Content:</span>
+                                </span> 
+                                <span class="zh-content">野生动物监测、反偷猎巡逻、社区教育</span>
+                                <span class="en-content">Wildlife monitoring, anti-poaching patrols, community education</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">肯尼亚是野生动物保护的重要基地，这个项目让志愿者参与到大象、狮子、犀牛等濒危物种的保护工作中。你将与当地保护组织合作，参与动物监测、数据收集、反偷猎巡逻和社区教育等工作。这是一个与非洲野生动物近距离接触，同时为生物多样性保护做出贡献的难得机会。</span>
+                            <span class="en-content">Kenya is a crucial base for wildlife conservation, and this program allows volunteers to participate in protecting endangered species such as elephants, lions, and rhinos. You will work with local conservation organizations, participating in animal monitoring, data collection, anti-poaching patrols, and community education. This is a rare opportunity to closely interact with African wildlife while contributing to biodiversity conservation.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="program-card" data-country="international">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?conservation,volunteer" alt="国际志愿者交流">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">IVHQ国际志愿者总部项目</span>
+                            <span class="en-content">International Volunteer HQ (IVHQ) Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">全球超过50个国家</span>
+                            <span class="en-content">Over 50 countries worldwide</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上（部分项目16岁+）</span>
+                                <span class="en-content">18+ years old (some programs 16+)</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">1周至6个月</span>
+                                <span class="en-content">1 week to 6 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">领域:</span>
+                                    <span class="en-content">Fields:</span>
+                                </span> 
+                                <span class="zh-content">教育、医疗、环保、社区发展</span>
+                                <span class="en-content">Education, Healthcare, Conservation, Community Development</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">IVHQ是全球最大的志愿者组织之一，在全球50多个国家提供多样化的志愿者项目。从南美的孤儿院教学到非洲的医疗援助，从亚洲的海龟保护到大洋洲的社区建设，项目类型丰富多样。所有项目均包含语言和文化培训，志愿者住宿和24小时支持服务，是安全可靠的国际志愿者体验选择。</span>
+                            <span class="en-content">IVHQ is one of the largest volunteer organizations globally, offering diverse volunteer programs in over 50 countries. From teaching in South American orphanages to medical assistance in Africa, from turtle conservation in Asia to community construction in Oceania, the project types are rich and varied. All programs include language and cultural training, volunteer accommodation, and 24-hour support services, making them a safe and reliable choice for international volunteer experiences.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="oceania">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?new,zealand,farm" alt="新西兰农场工作">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">新西兰WWOOF有机农场志愿者项目</span>
+                            <span class="en-content">New Zealand WWOOF Organic Farm Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">新西兰全境</span>
+                            <span class="en-content">Throughout New Zealand</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上，基本英语交流能力</span>
+                                <span class="en-content">18+ years old, basic English communication</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">1周至数月（可灵活）</span>
+                                <span class="en-content">1 week to several months (flexible)</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">福利:</span>
+                                    <span class="en-content">Benefits:</span>
+                                </span> 
+                                <span class="zh-content">免费食宿、有机农业体验</span>
+                                <span class="en-content">Free food and accommodation, organic farming experience</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">WWOOF(世界有机农场机会组织)在新西兰非常受欢迎，让参与者在有机农场、葡萄园或生态社区工作4-6小时/天，换取免费食宿。通过这个项目，你可以学习可持续农业技能，体验纯正的新西兰乡村生活，与当地家庭建立深厚友谊，同时探索这个美丽国家的壮观自然风光。</span>
+                            <span class="en-content">WWOOF (World Wide Opportunities on Organic Farms) is very popular in New Zealand, allowing participants to work 4-6 hours/day on organic farms, vineyards, or eco-communities in exchange for free food and accommodation. Through this program, you can learn sustainable agriculture skills, experience authentic New Zealand rural life, build deep friendships with local families, and explore the spectacular natural scenery of this beautiful country.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="program-card" data-country="asia">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?thailand,diving" alt="泰国潜水项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">
+                            <span class="zh-content">泰国象岛潜水证书与保育项目</span>
+                            <span class="en-content">Thailand Koh Chang Diving Certification and Conservation Program</span>
+                        </h3>
+                        <div class="program-location">
+                            📍 <span class="zh-content">泰国象岛</span>
+                            <span class="en-content">Koh Chang, Thailand</span>
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">要求:</span>
+                                    <span class="en-content">Requirements:</span>
+                                </span> 
+                                <span class="zh-content">18岁以上，会游泳</span>
+                                <span class="en-content">18+ years old, able to swim</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">持续时间:</span>
+                                    <span class="en-content">Duration:</span>
+                                </span> 
+                                <span class="zh-content">2周至3个月</span>
+                                <span class="en-content">2 weeks to 3 months</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">
+                                    <span class="zh-content">包含:</span>
+                                    <span class="en-content">Includes:</span>
+                                </span> 
+                                <span class="zh-content">PADI潜水证书、珊瑚礁保护活动</span>
+                                <span class="en-content">PADI diving certification, coral reef conservation activities</span>
+                            </div>
+                        </div>
+                        <p class="program-desc">
+                            <span class="zh-content">这个项目在泰国著名的象岛提供水肺潜水培训与海洋保护活动相结合的体验。参与者将获得国际认可的PADI潜水证书（初级到救援潜水员级别），同时参与珊瑚礁监测、海洋垃圾清理和海洋保护教育等工作。在泰国迷人的热带海岛，你将学习专业潜水技能，了解海洋生态系统，同时享受泰国独特的文化和美食。</span>
+                            <span class="en-content">This program on Thailand's famous Koh Chang island combines scuba diving training with marine conservation activities. Participants will obtain internationally recognized PADI diving certificates (from beginner to rescue diver level) while participating in coral reef monitoring, marine debris cleanup, and marine conservation education. On Thailand's enchanting tropical island, you will learn professional diving skills, understand marine ecosystems, and enjoy Thailand's unique culture and cuisine.</span>
+                        </p>
+                        <a href="{{ url_for('index') }}?lang=en" class="btn">
+                            <span class="zh-content">咨询AIme</span>
+                            <span class="en-content">Consult AIme</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">
+                <span class="zh-content">准备好开始你的 GAP Year 了吗？</span>
+                <span class="en-content">Ready to start your GAP Year?</span>
+            </h2>
+            <p class="cta-text">
+                <span class="zh-content">无论你想要环游世界、参与志愿服务、获取职场经验，还是学习新技能，我们都能为你提供专业规划和支持。</span>
+                <span class="en-content">Whether you want to travel the world, participate in volunteer service, gain work experience, or learn new skills, we can provide professional planning and support for you.</span>
+            </p>
+            <a href="{{ url_for('index') }}?lang=en" class="btn btn-white" data-i18n="consult-aime">咨询AIme</a>
+        </div>
+    </section>
+    
+    <script>
+        // Update translations object with additional GAP Year specific translations
+        if (window.AIME_TRANSLATIONS) {
+            // Add English translations
+            window.AIME_TRANSLATIONS.en["gap-about-title"] = "What is a GAP Year?";
+            window.AIME_TRANSLATIONS.en["gap-benefits-title"] = "Benefits of a GAP Year";
+            window.AIME_TRANSLATIONS.en["gap-quote"] = "Don't see a GAP Year as an escape from normal life, but rather as an opportunity to redefine what normal life is.";
+            window.AIME_TRANSLATIONS.en["gap-quote-author"] = "— Mark Twain";
+            window.AIME_TRANSLATIONS.en["gap-stories-title"] = "GAP Year Stories";
+            window.AIME_TRANSLATIONS.en["gap-cta-title"] = "Ready to start your GAP Year?";
+            window.AIME_TRANSLATIONS.en["gap-cta-text"] = "Whether you want to travel the world, participate in volunteer service, gain work experience, or learn new skills, we can provide professional planning and support for you.";
+            
+            // Add Chinese translations
+            window.AIME_TRANSLATIONS.zh["gap-about-title"] = "什么是 GAP Year？";
+            window.AIME_TRANSLATIONS.zh["gap-benefits-title"] = "GAP Year 的收获";
+            window.AIME_TRANSLATIONS.zh["gap-quote"] = "不要把 GAP Year 看作是对正常生活的逃避，而是一次重新定义什么是正常生活的机会。";
+            window.AIME_TRANSLATIONS.zh["gap-quote-author"] = "— 马克·特温";
+            window.AIME_TRANSLATIONS.zh["gap-stories-title"] = "GAP Year 故事分享";
+            window.AIME_TRANSLATIONS.zh["gap-cta-title"] = "准备好开始你的 GAP Year 了吗？";
+            window.AIME_TRANSLATIONS.zh["gap-cta-text"] = "无论你想要环游世界、参与志愿服务、获取职场经验，还是学习新技能，我们都能为你提供专业规划和支持。";
+        }
+        
+        // 不需要特定的语言切换逻辑，因为现在使用全局的language.js
+    </script>
+    
+    <!-- 添加项目筛选功能 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取所有过滤按钮和项目卡片
+            const filterButtons = document.querySelectorAll('.country-filter');
+            const programCards = document.querySelectorAll('.program-card');
+            
+            // 修复国际组织项目的data-country属性
+            // 根据项目名称或描述特征将其分类为国际组织
+            programCards.forEach(card => {
+                const title = card.querySelector('.program-title').textContent.toLowerCase();
+                const location = card.querySelector('.program-location').textContent.toLowerCase();
+                
+                // 检查是否是国际组织项目
+                if (
+                    title.includes('联合国') || title.includes('united nations') || 
+                    title.includes('红十字') || title.includes('red cross') || 
+                    title.includes('unesco') || title.includes('教科文') || 
+                    title.includes('和平队') || title.includes('peace corps') ||
+                    title.includes('世界自然基金会') || title.includes('wwf') ||
+                    title.includes('国际') && title.includes('志愿者') ||
+                    title.includes('international') && title.includes('volunteer') ||
+                    location.includes('全球') || location.includes('global') ||
+                    location.includes('multiple countries')
+                ) {
+                    card.setAttribute('data-country', 'international');
+                }
+                
+                // 确保每个卡片都有data-country属性，如果没有则设为international
+                if (!card.hasAttribute('data-country')) {
+                    card.setAttribute('data-country', 'international');
+                }
+            });
+            
+            // 为每个过滤按钮添加点击事件
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // 为当前点击的按钮添加active类
+                    this.classList.add('active');
+                    
+                    // 获取过滤器的值
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // 显示或隐藏项目卡片
+                    programCards.forEach(card => {
+                        // 如果过滤器为"all"或卡片的data-country属性匹配当前过滤器
+                        if (filterValue === 'all' || card.getAttribute('data-country') === filterValue) {
+                            card.style.display = ''; // 使用默认显示样式
+                        } else {
+                            card.style.display = 'none'; // 隐藏卡片
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

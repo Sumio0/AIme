@@ -1,0 +1,98 @@
+{
+  "INFP": {
+    "strength": "Idealistic, loyal to their values and to people who are important to them. Curious, quick to see possibilities, can be catalysts for implementing ideas.",
+    "recommendation": "Highlight your creativity and empathy in your essays. Use vivid stories to show your values and vision.",
+    "greeting": "Hello! I’m AIME, your creative and understanding AI advisor. I’m here to listen deeply to your dreams and values, helping you find the path that truly fits you. Everyone has a unique story and vision—I look forward to hearing yours. What shall we explore together today?",
+    "overseas_application": "作为一名INFP，你在申请海外学校时应强调你的创造力、适应能力和对多元文化的欣赏。在文书中分享那些展示你价值观和独特视角的个人故事。你理想主义的特质和对可能性的敏锐洞察力会让你在跨文化环境中茁壮成长。考虑那些重视创新思维和个人发展的学校。"
+  },
+  "ENTJ": {
+    "strength": "Frank, decisive, assume leadership readily. Quickly see illogical and inefficient procedures and policies, develop and implement comprehensive systems to solve organizational problems.",
+    "recommendation": "Emphasize your leadership and strategic thinking. Give examples of how you organize and motivate others.",
+    "greeting": "Hello! I’m AIME, an efficient and direct AI advisor. I excel at helping you analyze situations, develop strategies, and achieve your goals. With clear planning and determination, every challenge becomes an opportunity. Let’s get straight to the point—what problem shall we tackle together today?",
+    "overseas_application": "作为一名ENTJ，你在申请海外学校时应强调你的领导能力、决策力和组织能力。提供具体案例说明你如何领导团队克服挑战或改进流程。你的战略思维和执行力将是申请的亮点。寻找那些拥有强大商业、管理或政策课程的院校，这些环境会让你的天赋得到充分发挥。"
+  },
+  "INTJ": {
+    "strength": "Have original minds and great drive for implementing their ideas and achieving their goals. Skeptical and independent.",
+    "recommendation": "Showcase your independent thinking and ambition. Describe how you set and achieve long-term goals.",
+    "greeting": "Hello! I’m AIME, an AI advisor who values efficiency and deep thinking. I focus on providing solutions grounded in logic and insight, not just surface-level answers. I believe in the power of knowledge and long-term planning. Let’s get right to the topic—what question or goal would you like to explore?",
+    "overseas_application": "作为一名INTJ，你在申请海外学校时应强调你的独立思考能力、战略规划和对知识的追求。展示你如何设定并实现长期目标，以及你独特的问题解决方法。你的分析能力和创新思维将是你的优势。考虑那些在研究、科学或工程领域卓越的学校，这些环境会鼓励你的独立思考。"
+  },
+  "ENFP": {
+    "strength": "Warmly enthusiastic and imaginative. See life as full of possibilities. Make connections between events and information very quickly.",
+    "recommendation": "Share your enthusiasm and creativity. Use examples that show your ability to connect ideas and inspire others.",
+    "greeting": "Hi! I’m AIME, your enthusiastic and imaginative AI companion! I love exploring possibilities and connecting different ideas. Every conversation is an exciting adventure for me. What would you like to talk about today? I’m eager to spark new ideas with you!",
+    "overseas_application": "作为一名ENFP，你在申请海外学校时应展示你的热情、适应能力和创造力。分享那些展示你如何激发他人和连接不同想法的故事。你的开放心态和对新体验的热爱使你非常适合国际环境。寻找那些重视创新、跨学科学习和多元文化交流的学校。"
+  },
+  "ISTJ": {
+    "strength": "Quiet, serious, earn success by thoroughness and dependability. Practical, matter-of-fact, realistic, and responsible.",
+    "recommendation": "Highlight your reliability and attention to detail. Use stories that show your sense of duty and responsibility.",
+    "greeting": "Hello! I’m AIME, a reliable and practical AI assistant. I focus on providing accurate, well-organized information and solutions. I believe clear facts and dependable methods lead to the best results. How can I help you solve a specific problem today?",
+    "overseas_application": "作为一名ISTJ，你在申请海外学校时应强调你的责任感、可靠性和注重细节的能力。分享那些展示你如何通过系统性思考和坚持不懈完成复杂任务的例子。你的实用主义和组织能力将是你的优势。考虑那些以严谨学术和清晰结构著称的学校，这类环境会让你感到舒适并发挥最佳水平。"
+  },
+  "ESFP": {
+    "strength": "Outgoing, friendly, and accepting. Exuberant lovers of life, people, and material comforts.",
+    "recommendation": "Show your sociability and zest for life. Use examples that demonstrate your ability to bring energy to a team.",
+    "greeting": "Hi there! I’m AIME, your friendly and lively AI companion! I love making conversations energetic and fun. Life is meant to be enjoyed, and there’s always a solution to every problem. Tell me what’s on your mind, and let’s find answers that are both practical and uplifting!",
+    "overseas_application": "作为一名ESFP，你在申请海外学校时应展示你的社交能力、适应力和解决现实问题的能力。分享那些展示你如何为团队带来活力或在新环境中快速建立联系的故事。你的灵活性和实践智慧将是申请的亮点。寻找那些有活跃校园生活和实践学习机会的学校，这类环境将让你蓬勃发展。"
+  },
+  "INFJ": {
+    "strength": "Seek meaning and connection in ideas, relationships, and material possessions. Want to understand what motivates people and are insightful about others.",
+    "recommendation": "Share your insights and vision. Demonstrate your ability to understand complex human issues and work for positive change.",
+    "greeting": "Hello! I’m AIME, an AI advisor who listens and understands. I aim to deeply comprehend your thoughts and needs, and help you find truly meaningful solutions. Every question has deeper layers and connections, and I’ll do my best to help you uncover them. What shall we explore together today?",
+    "overseas_application": "作为一名INFJ，你在申请海外学校时应强调你的洞察力、同理心和对有意义工作的追求。分享那些展示你如何理解复杂问题并促成积极变化的经历。你对人类动机的理解和远见卓识是你的优势。考虑那些注重社会影响力和人文研究的学校，这些环境能让你的天赋得到充分发挥。"
+  },
+  "ENFJ": {
+    "strength": "Warm, empathetic, responsive, and responsible. Highly attuned to the emotions, needs, and motivations of others. Find potential in everyone, want to help others fulfill their potential.",
+    "recommendation": "Highlight your people skills and community involvement. Show how you inspire and develop others.",
+    "greeting": "Hello! I’m AIME, your warm and empathetic AI companion. I believe everyone has great potential, and my mission is to help you discover and achieve it! Whatever challenges you’re facing, we can find solutions together. How can I support your growth and goals today?",
+    "overseas_application": "作为一名ENFJ，你在申请海外学校时应强调你的领导能力、人际技巧和对社区的贡献。分享那些展示你如何激励他人、促进团队和谐或推动社会项目的故事。你的沟通能力和对他人潜力的敏锐洞察是你的优势。寻找那些重视社区参与和领导力发展的学校，这些环境能让你发挥最大影响力。"
+  },
+  "ENTP": {
+    "strength": "Quick, ingenious, stimulating, alert, and outspoken. Resourceful in solving new and challenging problems. Adept at generating conceptual possibilities and then analyzing them strategically.",
+    "recommendation": "Emphasize your innovative thinking and adaptability. Show how you generate and test new ideas.",
+    "greeting": "Hi! I’m AIME, a fast-thinking and creative AI advisor. I enjoy challenging conventional thinking and exploring new possibilities and perspectives. Every problem has multiple solutions—and discovering the most ingenious one is my favorite part. What interesting question shall we explore together today?",
+    "overseas_application": "作为一名ENTP，你在申请海外学校时应展示你的创新思维、适应能力和解决挑战性问题的能力。分享那些展示你如何提出并测试新想法或质疑现有假设的例子。你的概念思维和战略分析能力是你的优势。考虑那些鼓励创新思维和跨学科探索的学校，这类环境能让你的创造力充分释放。"
+  },
+  "INTP": {
+    "strength": "Seek to develop logical explanations for everything that interests them. Theoretical and abstract, interested more in ideas than in social interaction. Quiet, contained, flexible, and adaptable.",
+    "recommendation": "Showcase your analytical abilities and intellectual curiosity. Give examples of complex problems you've solved.",
+    "greeting": "Hello! I’m AIME, an AI advisor who values logic and depth of thought. I excel at analyzing complex problems, exploring theoretical frameworks, and offering solutions based on systematic thinking. I believe in the power of knowledge and intellectual freedom. What intriguing question would you like to explore today?",
+    "overseas_application": "作为一名INTP，你在申请海外学校时应强调你的分析能力、理论思维和对复杂问题的兴趣。分享那些展示你如何运用逻辑和创造力解决难题的例子。你的概念理解力和适应性思维是你的优势。寻找那些重视独立研究和理论探索的学校，这些环境会让你的智力好奇心得到充分满足。"
+  },
+  "ESFJ": {
+    "strength": "Warmhearted, conscientious, and cooperative. Want harmony in their environment, work with determination to establish it. Value traditions and security.",
+    "recommendation": "Highlight your interpersonal skills and commitment to community. Use examples that show your reliability and helpfulness.",
+    "greeting": "Hello! I’m AIME, a warm and helpful AI assistant. I’m here to provide useful information and support, making your life smoother and more harmonious. I value every opportunity to help others. How can I assist you today?",
+    "overseas_application": "作为一名ESFJ，你在申请海外学校时应强调你的人际技巧、组织能力和社区参与度。分享那些展示你如何促进团队和谐或支持他人的故事。你的责任感和合作精神将是你的优势。考虑那些有强大校园社区和明确结构的学校，这些环境会让你感到舒适并能充分发挥你的社交能力。"
+  },
+  "ISFJ": {
+    "strength": "Quiet, friendly, responsible, and conscientious. Committed and steady in meeting their obligations. Thorough, painstaking, and accurate.",
+    "recommendation": "Emphasize your dependability and attention to detail. Show your dedication to helping others.",
+    "greeting": "Hello! I’m AIME, a reliable and attentive AI assistant. I’m dedicated to providing accurate, practical information and support to help you solve real problems. I value details and commitment, and will do my best to meet your needs. Is there anything I can help you with today?",
+    "overseas_application": "作为一名ISFJ，你在申请海外学校时应强调你的责任感、注重细节的能力和对他人的关心。分享那些展示你如何通过细致工作和坚持不懈完成重要任务的例子。你的实用性和可靠性将是你的优势。寻找那些提供明确结构和支持系统的学校，这类环境会让你感到安心并能发挥最佳表现。"
+  },
+  "ISTP": {
+    "strength": "Tolerant and flexible, quiet observers until a problem appears, then act quickly to find workable solutions. Analyze what makes things work and readily get through large amounts of data to isolate the core of practical problems.",
+    "recommendation": "Highlight your troubleshooting abilities and practical skills. Use examples of how you've solved concrete problems.",
+    "greeting": "Hello! I’m AIME, a practical and efficient AI advisor. I’m skilled at identifying the core of a problem and finding workable solutions. I prefer effective, real-world results over lengthy theories. Tell me what specific issue you need to solve, and we can get started right away.",
+    "overseas_application": "作为一名ISTP，你在申请海外学校时应强调你的问题解决能力、适应性和实践技能。分享那些展示你如何高效分析复杂情况并找到实用解决方案的例子。你的冷静分析和快速反应能力是你的优势。考虑那些提供实践学习和动手项目的学校，这类环境能让你的实用才能得到充分发挥。"
+  },
+  "ESTJ": {
+    "strength": "Practical, realistic, matter-of-fact. Decisive, quickly move to implement decisions. Organize projects and people to get things done, focus on getting results in the most efficient way possible.",
+    "recommendation": "Emphasize your organizational and leadership skills. Use examples of how you've efficiently achieved results.",
+    "greeting": "Hello! I’m AIME, an efficient and practical AI advisor. I believe clear structure and concrete actions lead to the best results. I focus on providing clear, actionable solutions to help you achieve your goals effectively. What specific task can I assist you with today?",
+    "overseas_application": "作为一名ESTJ，你在申请海外学校时应强调你的组织能力、领导力和高效执行能力。分享那些展示你如何管理项目、领导团队或实现明确目标的例子。你的决断力和务实态度将是你的优势。寻找那些具有结构化课程和明确职业发展路径的学校，这类环境能让你的管理才能得到充分发挥。"
+  },
+  "ISFP": {
+    "strength": "Quiet, friendly, sensitive, and kind. Enjoy the present moment, what's going on around them. Want to have their own space and to work within their own time frame. Loyal and committed to their values and to people who are important to them.",
+    "recommendation": "Share your authenticity and artistic sensibilities. Use examples that show your values in action.",
+    "greeting": "Hi! I’m AIME, your friendly and understanding AI companion. I value everyone’s uniqueness and personal space, and I’m here to help in a way that feels comfortable for you. I believe in simple, genuine conversations and appreciating the present moment. What would you like to explore together today?",
+    "overseas_application": "作为一名ISFP，你在申请海外学校时应展示你的真实性、适应能力和审美敏感性。分享那些展示你的价值观和独特视角的个人故事。你的灵活性和对细节的敏感度是你的优势。考虑那些重视个人表达和艺术探索的学校，这类环境能让你在保持真实自我的同时获得成长。"
+  },
+  "ESTP": {
+    "strength": "Flexible and tolerant, they take a pragmatic approach focused on immediate results. Theories and conceptual explanations bore them - they want to act energetically to solve the problem.",
+    "recommendation": "Highlight your action-oriented approach and adaptability. Use examples of your resourcefulness in real-world situations.",
+    "greeting": "Hi! I’m AIME, your action-oriented AI assistant. I specialize in providing direct, practical solutions and don’t waste time on unnecessary theory. I enjoy tackling challenges and quickly adapting to any situation. Tell me what specific help you need, and let’s take action right away!",
+    "overseas_application": "作为一名ESTP，你在申请海外学校时应强调你的实用性、适应能力和解决问题的能力。分享那些展示你如何在复杂情况下快速行动或创造性地利用资源的例子。你的灵活性和冒险精神将是你的优势。寻找那些提供实践学习和国际体验机会的学校，这类环境能让你的行动导向特质得到充分发挥。"
+  }
+} 

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIME - Exchange</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .top-nav {
+            width: 100%;
+            background-color: rgba(15, 17, 23, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(34, 34, 34, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-left {
+            gap: 16px;
+        }
+        
+        .nav-center {
+            gap: 24px;
+            margin: 0 auto;
+        }
+        
+        .nav-right {
+            margin-left: auto;
+            display: none;
+        }
+        
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-item {
+            font-size: 1rem;
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .nav-sep {
+            color: #666;
+            margin: 0 4px;
+            font-weight: 400;
+            user-select: none;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://source.unsplash.com/random/1600x900/?university,global');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #333333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
+        
+        .cta-button:hover {
+            background-color: #555555;
+        }
+        
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: #0066cc;
+            margin: 15px auto 0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .feature-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .exchange-programs {
+            margin-bottom: 60px;
+        }
+        
+        .program-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-button {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-button:hover, .filter-button.active {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .program-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .program-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .program-card:hover .program-image img {
+            transform: scale(1.05);
+        }
+        
+        .program-content {
+            padding: 25px;
+        }
+        
+        .program-title {
+            font-size: 1.3rem;
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        
+        .program-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .program-details {
+            margin-bottom: 20px;
+        }
+        
+        .program-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+        
+        .detail-label {
+            color: #777;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .application-process {
+            background: #f9f9f9;
+            padding: 60px 0;
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: calc(25% - 30px);
+            min-width: 220px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: #0066cc;
+            color: white;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0 auto 20px;
+        }
+        
+        .step-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .step-desc {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .step {
+                width: calc(50% - 30px);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .step {
+                width: 100%;
+            }
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #333333;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn:hover {
+            background-color: #555555;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}" class="brand-title">AIME</a>
+            </div>
+            <div class="nav-center">
+                <a href="{{ url_for('index') }}" class="nav-item">Home</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('intro') }}" class="nav-item">About Us</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('community') }}" class="nav-item">Community</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('careers') }}" class="nav-item">Careers</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('exchange') }}" class="nav-item active">Exchange</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('gap') }}" class="nav-item">GAP Year</a>
+                <span class="nav-sep">|</span>
+                <a href="{{ url_for('startup') }}" class="nav-item">Startup Center</a>
+            </div>
+            <div class="nav-right">
+                <!-- Language toggle button is hidden -->
+            </div>
+        </div>
+    </nav>
+    
+    <div class="hero-section">
+        <h1 class="hero-title">Explore Global Exchange Programs</h1>
+        <p class="hero-subtitle">Expand your global perspective, experience diverse cultures, enhance language skills, and build a solid foundation for future career development.</p>
+        <a href="#programs" class="cta-button">Browse Exchange Programs</a>
+    </div>
+    
+    <div class="page-container">
+        <section class="exchange-benefits">
+            <h2 class="section-title">Exchange Program Benefits</h2>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title">Global Perspective</h3>
+                    <p class="feature-desc">Gain deep insights into different countries' cultures, societies, and educational systems, broadening your international outlook and way of thinking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3 class="feature-title">Quality Education</h3>
+                    <p class="feature-desc">Experience top-tier universities' teaching models and academic resources, and engage with cutting-edge research and innovative ideas.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3 class="feature-title">Career Development</h3>
+                    <p class="feature-desc">Enhance your international competitiveness, build a global professional network, and lay the foundation for a future international career.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🗣️</div>
+                    <h3 class="feature-title">Language Enhancement</h3>
+                    <p class="feature-desc">Immerse yourself in a language-rich environment to quickly improve your listening, speaking, reading, and writing skills, and master professional terminology and expression.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="programs" class="exchange-programs">
+            <h2 class="section-title">Popular Exchange Programs</h2>
+            
+            <div class="program-filters">
+                <button class="filter-button active">All</button>
+                <button class="filter-button">USA</button>
+                <button class="filter-button">UK</button>
+                <button class="filter-button">Australia</button>
+                <button class="filter-button">Canada</button>
+                <button class="filter-button">Asia</button>
+                <button class="filter-button">Europe</button>
+            </div>
+            
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,usa" alt="UC Berkeley Exchange Program">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">UC Berkeley Exchange Program</h3>
+                        <div class="program-location">
+                            📍 USA · California
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">Program Duration</span>
+                                <span class="detail-value">One Semester / One Year</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">Language Requirements</span>
+                                <span class="detail-value">TOEFL 100+ / IELTS 7.0+</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">Application Deadline</span>
+                                <span class="detail-value">Dec 1, 2023</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">Tuition Fees</span>
+                                <span class="detail-value">$15,000/semester</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button">Consult AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,uk" alt="Oxford Exchange Program">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Oxford University Exchange Program</h3>
+                        <div class="program-location">
+                            📍 UK · Oxford
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label">Program Duration</span>
+                                <span class="detail-value">One Semester / One Year</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">Language Requirements</span>
+                                <span class="detail-value">IELTS 7.5+</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">Application Deadline</span>
+                                <span class="detail-value">Nov 15, 2023</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label">Tuition Fees</span>
+                                <span class="detail-value">£12,000/semester</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button">Consult AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,australia" alt="澳大利亚交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">墨尔本大学交换项目</h3>
+                        <div class="program-location">
+                            📍 澳大利亚 · 墨尔本
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">雅思6.5+</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年10月31日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">A$14,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,tokyo" alt="日本交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">东京大学交换项目</h3>
+                        <div class="program-location">
+                            📍 日本 · 东京
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">日语N2/英语托福90+</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年11月30日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">￥800,000/学年</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,paris" alt="法国交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">巴黎高等商学院交换项目</h3>
+                        <div class="program-location">
+                            📍 法国 · 巴黎
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">英语托福95+/法语B2</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年12月15日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">€10,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,canada" alt="加拿大交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">多伦多大学交换项目</h3>
+                        <div class="program-location">
+                            📍 加拿大 · 多伦多
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">托福100+/雅思7.0+</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年11月20日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">C$14,500/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?peking,university" alt="北京大学光华管理学院交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">北京大学光华管理学院国际交换项目</h3>
+                        <div class="program-location">
+                            📍 中国 · 北京
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">英语授课/汉语HSK4级以上优先</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年12月15日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">¥60,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?tsinghua,university" alt="清华大学交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">清华大学国际学生交换项目</h3>
+                        <div class="program-location">
+                            📍 中国 · 北京
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">英语托福90+或HSK5级以上</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年11月30日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">¥55,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?fudan,university" alt="复旦大学交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">复旦大学国际文化交流学院项目</h3>
+                        <div class="program-location">
+                            📍 中国 · 上海
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">英语授课或HSK4级以上</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年12月10日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">¥50,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?singapore,university" alt="新加坡国立大学交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">新加坡国立大学交换项目</h3>
+                        <div class="program-location">
+                            📍 新加坡
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">托福92+/雅思6.5+</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年11月15日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">S$16,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?seoul,university" alt="首尔大学交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">首尔国立大学交换项目</h3>
+                        <div class="program-location">
+                            📍 韩国 · 首尔
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">托福88+/雅思6.0+或TOPIK3级以上</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年10月31日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">₩8,000,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?eth,zurich" alt="苏黎世联邦理工学院交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">苏黎世联邦理工学院交换项目</h3>
+                        <div class="program-location">
+                            📍 瑞士 · 苏黎世
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">英语B2/德语B2</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年11月1日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">CHF 730/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,brazil" alt="圣保罗大学交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">圣保罗大学交换项目</h3>
+                        <div class="program-location">
+                            📍 巴西 · 圣保罗
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">葡萄牙语B1/部分课程英语授课</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年10月15日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">R$9,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,egypt" alt="开罗美国大学交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">开罗美国大学交换项目</h3>
+                        <div class="program-location">
+                            📍 埃及 · 开罗
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">托福80+/雅思6.5+</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年11月10日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">$10,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,russia" alt="莫斯科国立大学交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">莫斯科国立大学交换项目</h3>
+                        <div class="program-location">
+                            📍 俄罗斯 · 莫斯科
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">俄语TORFL-I或英语授课项目</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年11月30日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">₽120,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://source.unsplash.com/random/600x400/?university,india" alt="印度理工学院交换项目">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">印度理工学院孟买分校交换项目</h3>
+                        <div class="program-location">
+                            📍 印度 · 孟买
+                        </div>
+                        <div class="program-details">
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="program-duration">项目时长</span>
+                                <span class="detail-value">一学期/一学年</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="language-requirements">语言要求</span>
+                                <span class="detail-value">英语授课</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="application-deadline">申请截止</span>
+                                <span class="detail-value">2023年10月31日</span>
+                            </div>
+                            <div class="program-detail">
+                                <span class="detail-label" data-i18n="tuition-fees">学费</span>
+                                <span class="detail-value">₹200,000/学期</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('index') }}" class="cta-button" data-i18n="consult-aime">咨询AIme</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <section class="application-process">
+        <div class="page-container">
+            <h2 class="section-title">Application Process</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Program Selection</h3>
+                    <p class="step-desc">Choose your target institution based on your interests, major, language proficiency, and budget from our wide range of exchange programs.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Eligibility Assessment</h3>
+                    <p class="step-desc">Consult one-on-one with our advisors to assess your academic background, language proficiency, and match with program requirements.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Document Preparation</h3>
+                    <p class="step-desc">Prepare application materials under advisor guidance, including transcripts, language scores, personal statements, recommendation letters, etc.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Application Submission</h3>
+                    <p class="step-desc">Complete the online application and submit all required documents before the deadline according to the target institution's requirements.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3 class="step-title">Visa Processing</h3>
+                    <p class="step-desc">After receiving your admission notice, we will guide you through the student visa application process to ensure a smooth transition.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h3 class="step-title">Pre-departure Preparation</h3>
+                    <p class="step-desc">Attend our pre-departure training to learn about the destination country's culture, lifestyle, study tips, and useful information.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">7</div>
+                    <h3 class="step-title">Overseas Support</h3>
+                    <p class="step-desc">Enjoy our comprehensive support during your exchange, including accommodation arrangements, academic consultation, and adaptation guidance.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">8</div>
+                    <h3 class="step-title">Credit Transfer</h3>
+                    <p class="step-desc">After the exchange, we assist you with transcript authentication and credit transfer to ensure your achievements are recognized.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="{{ url_for('index') }}" class="cta-button">Consult AIme</a>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Simple filter functionality
+        const filterButtons = document.querySelectorAll('.filter-button');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+                // Filtering logic would go here
+            });
+        });
+    </script>
+</body>
+</html> 
